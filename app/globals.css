@@ -1,27 +1,101 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;600&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #faf8f5;
+  --surface: #f2ede8;
+  --border-soft: #e0d8d0;
+  --text-primary: #1c1917;
+  --text-secondary: #78716c;
+  --accent: #c8956c;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
+  background-color: var(--background);
 }
 
 body {
-  color: var(--foreground);
+  min-height: 100vh;
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text-primary);
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-heading {
+  font-family: "Playfair Display", serif;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-soft) var(--background);
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  background: var(--border-soft);
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .page-fade {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 500ms ease,
+      transform 500ms ease;
+  }
+
+  .page-fade[data-mounted="true"] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .animate-modal-in {
+    animation: modal-in 200ms ease-out;
+  }
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
