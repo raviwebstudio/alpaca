@@ -2,41 +2,54 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./lib/**/*.{js,ts,jsx,tsx,mdx}"
   ],
   theme: {
     extend: {
       colors: {
-        background: "#FAF8F5",
-        surface: "#F2EDE8",
-        "border-soft": "#E0D8D0",
-        "text-primary": "#1C1917",
-        "text-secondary": "#78716C",
-        accent: "#C8956C",
-        "accent-hover": "#B07D56",
-        success: "#4CAF7D",
-        error: "#E05C5C",
+        background: "#F8F5F2",
+        canvas: "#FBF8F4",
+        surface: "#FFFFFF",
+        "surface-muted": "#F1EBE5",
+        "surface-strong": "#E8DED5",
+        line: "#E8DED4",
+        accent: "#B48B67",
+        "accent-soft": "#F0E1D2",
+        dark: "#16120F",
+        "text-primary": "#181512",
+        "text-secondary": "#6E655D"
       },
       fontFamily: {
-        heading: ['"Playfair Display"', "serif"],
-        body: ["Inter", "sans-serif"],
-      },
-      fontSize: {
-        display: ["56px", { lineHeight: "1.1", fontWeight: "600" }],
-        h1: ["40px", { lineHeight: "1.2", fontWeight: "600" }],
-        h2: ["32px", { lineHeight: "1.3", fontWeight: "600" }],
-        h3: ["24px", { lineHeight: "1.4", fontWeight: "500" }],
-        body: ["16px", { lineHeight: "1.6", fontWeight: "400" }],
-        small: ["14px", { lineHeight: "1.5", fontWeight: "400" }],
+        sans: ["Manrope", "sans-serif"],
+        display: ["Cormorant Garamond", "serif"]
       },
       boxShadow: {
-        soft: "0 4px 24px rgba(0,0,0,0.06)",
-        card: "0 2px 12px rgba(0,0,0,0.08)",
+        premium: "0 28px 80px rgba(22, 18, 15, 0.09)",
+        soft: "0 18px 40px rgba(22, 18, 15, 0.06)",
+        inset: "inset 0 1px 0 rgba(255, 255, 255, 0.65)"
       },
-    },
+      keyframes: {
+        "fade-up": {
+          "0%": { opacity: "0", transform: "translateY(22px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" }
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-8px)" }
+        }
+      },
+      animation: {
+        "fade-up": "fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both",
+        float: "float 7s ease-in-out infinite"
+      },
+      maxWidth: {
+        shell: "1220px"
+      }
+    }
   },
-  plugins: [],
+  plugins: []
 };
+
 export default config;

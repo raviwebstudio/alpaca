@@ -1,14 +1,38 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Toast } from "@/components/ui/Toast";
+import { CartProvider } from "@/components/storefront/cart-provider";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("http://localhost:3000"),
+  metadataBase: new URL("https://alpaca-fashion.com"),
   title: {
-    default: "ALPACA",
+    default: "ALPACA | MADE FOR THE MOVE",
     template: "%s | ALPACA",
   },
-  description: "Curated fashion marketplace for independent labels and modern wardrobes.",
+  description:
+    "Minimal, premium essentials for everyday movement. Explore ALPACA's oversized tees, refined basics, and new drops.",
+  applicationName: "ALPACA",
+  category: "fashion",
+  keywords: [
+    "ALPACA",
+    "fashion essentials",
+    "minimal fashion",
+    "premium streetwear",
+    "oversized t-shirts",
+    "made for the move",
+  ],
+  openGraph: {
+    title: "ALPACA | MADE FOR THE MOVE",
+    description:
+      "Minimal, premium essentials for everyday movement. Oversized tees, elevated basics, and new drops in one clean storefront.",
+    siteName: "ALPACA",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ALPACA | MADE FOR THE MOVE",
+    description:
+      "Minimal, premium essentials for everyday movement. Oversized tees, elevated basics, and new drops in one clean storefront.",
+  },
 };
 
 export default function RootLayout({
@@ -17,10 +41,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="bg-background font-body text-body text-text-primary antialiased">
-        {children}
-        <Toast />
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <CartProvider>{children}</CartProvider>
       </body>
     </html>
   );

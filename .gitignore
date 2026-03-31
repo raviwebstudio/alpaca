@@ -1,13 +1,5 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
 /node_modules
-/.pnp
-.pnp.js
-.yarn/install-state.gz
-
-# testing
-/coverage
 
 # next.js
 /.next/
@@ -38,5 +30,3 @@ alpaca-db-link/
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-/app/generated/prisma
