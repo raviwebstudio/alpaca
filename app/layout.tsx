@@ -3,7 +3,7 @@ import "./globals.css";
 import { CartProvider } from "@/components/storefront/cart-provider";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://alpaca-fashion.com"),
+  metadataBase: new URL("https://alpacaa.in"),
   title: {
     default: "ALPACA | MADE FOR THE MOVE",
     template: "%s | ALPACA",
@@ -17,6 +17,9 @@ export const metadata: Metadata = {
     "fashion essentials",
     "minimal fashion",
     "premium streetwear",
+    "premium t-shirts",
+    "t-shirts",
+    "printed t-shirts",
     "oversized t-shirts",
     "made for the move",
   ],

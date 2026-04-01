@@ -10,7 +10,7 @@ import { blogPosts, collections, metrics, products, reasons } from "@/lib/storef
 export const metadata: Metadata = {
   title: "MADE FOR THE MOVE",
   description:
-    "Discover ALPACA's premium essentials, oversized t-shirts, minimal basics, and editorial new drops in a refined fashion storefront.",
+    "Discover ALPACA's premium essentials, oversized t-shirts, printed  t-shirts, minimal basics, and editorial new drops in a refined fashion storefront.",
 };
 
 const bestSellers = products.filter((product) => product.bestSeller).slice(0, 4);
@@ -29,12 +29,12 @@ export default function HomePage() {
         <div className="space-y-8">
           <div className="space-y-5">
             <p className="eyebrow">ALPACA</p>
-            <h1 className="max-w-4xl text-balance text-[3.8rem] leading-[0.94] text-dark sm:text-[5.4rem] lg:text-[6.4rem]">
+            <h1 className="max-w-4xl text-balance text-[3.8rem] leading-[0.94] text-dark sm:text-[5.4rem] lg:text-[5rem]">
               MADE FOR
               <br />
               THE MOVE.
             </h1>
-            <p className="max-w-xl text-base leading-7 text-text-secondary sm:text-lg">
+            <p className="max-w-xl text-base leading-7 text-text-secondary sm:text-md">
               Premium essentials shaped for momentum: oversized silhouettes, refined basics, and
               clean layers for every part of the day.
             </p>
@@ -45,7 +45,7 @@ export default function HomePage() {
               href="/shop"
               className="inline-flex items-center gap-2 rounded-full border border-dark bg-dark px-6 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5"
             >
-              Shop the collection
+              Shop Now
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
@@ -81,7 +81,7 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-dark/40 via-dark/10 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between gap-4 p-6 text-white">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.28em] text-white/80">Look 01</p>
+                  <p className="text-xs uppercase tracking-[0.28em] text-white/80">New Launch</p>
                   <p className="mt-2 max-w-xs text-2xl">Quiet layers for city movement.</p>
                 </div>
                 <Link
@@ -93,6 +93,19 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="shell section-space pt-0">
+        <SectionHeading
+          eyebrow="Best sellers"
+          title="The pieces customers keep returning to."
+          description="Foundational silhouettes with premium weight, soft structure, and everyday versatility."
+        />
+        <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          {bestSellers.map((product) => (
+            <ProductCard key={product.slug} product={product} />
+          ))}
         </div>
       </section>
 
@@ -157,38 +170,6 @@ export default function HomePage() {
       </section>
 
       <section className="shell section-space pt-0">
-        <SectionHeading
-          eyebrow="Best sellers"
-          title="The pieces customers keep returning to."
-          description="Foundational silhouettes with premium weight, soft structure, and everyday versatility."
-        />
-        <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {bestSellers.map((product) => (
-            <ProductCard key={product.slug} product={product} />
-          ))}
-        </div>
-      </section>
-
-      <section className="shell section-space pt-0">
-        <SectionHeading
-          eyebrow="Why ALPACA"
-          title="Minimal does not mean empty. It means every detail matters."
-          description="The design language stays quiet so fabric, fit, and finishing can speak clearly."
-        />
-        <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {whyAlpaca.map((item) => (
-            <div key={item.title} className="surface-card rounded-[28px] p-6">
-              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-soft text-dark">
-                <item.icon className="h-5 w-5" />
-              </div>
-              <h3 className="mt-6 text-3xl text-dark">{item.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-text-secondary">{item.copy}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="shell section-space pt-0">
         <div className="surface-card relative overflow-hidden rounded-[36px]">
           <div className="grid lg:grid-cols-[0.9fr_1.1fr]">
             <div className="space-y-5 p-8 sm:p-12 lg:p-16">
@@ -224,6 +205,25 @@ export default function HomePage() {
       </section>
 
       <section className="shell section-space pt-0">
+        <SectionHeading
+          eyebrow="Why ALPACA"
+          title="Minimal does not mean empty. It means every detail matters."
+          description="The design language stays quiet so fabric, fit, and finishing can speak clearly."
+        />
+        <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          {whyAlpaca.map((item) => (
+            <div key={item.title} className="surface-card rounded-[28px] p-6">
+              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-soft text-dark">
+                <item.icon className="h-5 w-5" />
+              </div>
+              <h3 className="mt-6 text-3xl text-dark">{item.title}</h3>
+              <p className="mt-3 text-sm leading-7 text-text-secondary">{item.copy}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="shell section-space pt-0">
         <div className="flex items-end justify-between gap-4">
           <SectionHeading
             eyebrow="Journal"
@@ -241,7 +241,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="shell section-space pt-0">
+      {/* <section className="shell section-space pt-0">
         <div className="surface-card rounded-[36px] px-6 py-14 sm:px-12 sm:py-16">
           <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
             <div className="space-y-4">
@@ -269,7 +269,7 @@ export default function HomePage() {
             </form>
           </div>
         </div>
-      </section>
+      </section> */}
     </>
   );
 }

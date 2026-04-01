@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, ShoppingBag, X } from "lucide-react";
@@ -7,6 +8,7 @@ import clsx from "clsx";
 import { navigation } from "@/lib/storefront";
 import { useCart } from "@/components/storefront/cart-provider";
 import { useState } from "react";
+import logoBlack from "../../assets/logo-black.png";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -17,15 +19,25 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-line/60 bg-background/80 backdrop-blur-xl">
       <div className="shell flex h-20 items-center justify-between gap-4">
         <Link href="/" className="flex items-center gap-3">
-          <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-line bg-white text-sm font-bold text-dark shadow-soft">
+          {/* <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-line bg-white text-sm font-bold text-dark shadow-soft">
             A
           </span>
           <div className="flex flex-col">
-            <span className="text-sm font-extrabold tracking-[0.28em] text-dark">ALPACA</span>
+            <span className="text-sm font-extrabold tracking-[0.28em] text-dark">ALPACA
+            </span>
             <span className="text-[0.65rem] uppercase tracking-[0.32em] text-text-secondary">
               Made for the move
             </span>
-          </div>
+          </div> */}
+          <span>
+            <Image
+              src={logoBlack}
+              alt="ALPACA Logo"
+              // className="h-10 w-10"
+              width={80}
+              height={80}
+            />
+          </span>
         </Link>
 
         <nav className="hidden items-center gap-7 text-sm font-medium text-text-secondary md:flex">

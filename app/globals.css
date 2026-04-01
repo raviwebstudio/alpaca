@@ -97,3 +97,10 @@ img {
     text-wrap: balance;
   }
 }
+
+@media (min-width: 1024px){
+    .section-space {
+      padding-top: 3rem !important;
+      padding-bottom: 4.5rem;
+    }
+  }
