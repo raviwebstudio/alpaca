@@ -29,7 +29,7 @@ export default function HomePage() {
         <div className="space-y-8">
           <div className="space-y-5">
             <p className="eyebrow">ALPACA</p>
-            <h1 className="max-w-4xl text-balance text-[3.8rem] leading-[0.94] text-dark sm:text-[5.4rem] lg:text-[5rem]">
+            <h1 className="max-w-4xl text-balance text-[3.8rem] leading-[0.94] text-dark sm:text-[5rem] lg:text-[5rem]">
               MADE FOR
               <br />
               THE MOVE.
@@ -68,8 +68,8 @@ export default function HomePage() {
 
         <div className="relative">
           <div className="absolute -left-6 top-10 hidden h-28 w-28 rounded-full bg-accent/15 blur-3xl sm:block" />
-          <div className="surface-card relative overflow-hidden rounded-[36px] bg-surface-muted p-4 shadow-premium">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[28px]">
+          <div className="surface-card hero-img relative overflow-hidden rounded-[36px] bg-surface-muted p-4 shadow-premium">
+            <div className="relative aspect-[5/5] overflow-hidden rounded-[28px]">
               <Image
                 src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1600&q=80"
                 alt="ALPACA lookbook lifestyle frame"

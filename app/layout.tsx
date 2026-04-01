@@ -2,8 +2,15 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { CartProvider } from "@/components/storefront/cart-provider";
 
+const favicon = new URL("../assets/favicon-black.png", import.meta.url);
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://alpacaa.in"),
+  icons: {
+    icon: favicon,
+    shortcut: favicon,
+    apple: favicon,
+  },
   title: {
     default: "ALPACA | MADE FOR THE MOVE",
     template: "%s | ALPACA",

@@ -98,6 +98,8 @@ img {
   }
 }
 
+/* .hero-img{height: 400px !important;} */
+
 @media (min-width: 1024px){
     .section-space {
       padding-top: 3rem !important;
