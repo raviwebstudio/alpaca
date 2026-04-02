@@ -1,5 +1,7 @@
+import Image from "next/image";
 import Link from "next/link";
 import { navigation } from "@/lib/storefront";
+import logoBlack from "../../assets/logo-black.png";
 
 const legalLinks = [
   { href: "/privacy-policy", label: "Privacy Policy" },
@@ -13,7 +15,8 @@ export function SiteFooter() {
     <footer className="border-t border-line/80">
       <div className="shell section-space grid gap-12 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="space-y-5">
-          <p className="eyebrow">ALPACA</p>
+          {/* <p className="eyebrow">ALPACA</p> */}
+          <Image src={logoBlack} alt="ALPACA Logo" width={80} height={80} className="h-20 w-20 object-contain" />
           <div className="max-w-xl space-y-4">
             <h2 className="text-balance text-4xl text-dark sm:text-5xl">
               Premium essentials, cut to move through the day with ease.
@@ -39,7 +42,7 @@ export function SiteFooter() {
           </div>
           <div className="space-y-4">
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-text-secondary">
-              Customer care
+              Quicks
             </p>
             <div className="flex flex-col gap-3 text-sm text-dark">
               {legalLinks.map((item) => (
@@ -47,8 +50,8 @@ export function SiteFooter() {
                   {item.label}
                 </Link>
               ))}
-              <a href="mailto:hello@alpaca-fashion.com" className="transition-colors hover:text-accent">
-                hello@alpaca-fashion.com
+              <a href="mailto:contact@alpacaa.in" className="transition-colors hover:text-accent">
+                contact@alpacaa.in
               </a>
             </div>
           </div>
@@ -57,8 +60,8 @@ export function SiteFooter() {
 
       <div className="border-t border-line/70">
         <div className="shell flex flex-col gap-3 py-6 text-sm text-text-secondary sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 ALPACA. MADE FOR THE MOVE.</p>
-          <p>Designed for a minimal wardrobe in motion.</p>
+          <p>© 2026 ALPACA -MADE FOR THE MOVE | All Rights Resereved.</p>
+          <p className="uppercase">Made by The Digital Wings</p>
         </div>
       </div>
     </footer>

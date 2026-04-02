@@ -1,26 +1,13 @@
-export type ProductColor = {
-  name: string;
-  hex: string;
-};
+import {
+  categoryLabels,
+  categoryOptions,
+  products,
+  type Product,
+  type ProductCategory,
+} from "@/data/products";
 
-export type Product = {
-  slug: string;
-  name: string;
-  category: string;
-  collection: string;
-  price: number;
-  summary: string;
-  description: string;
-  details: string[];
-  fit: string;
-  material: string;
-  sizes: string[];
-  colors: ProductColor[];
-  images: string[];
-  featured?: boolean;
-  bestSeller?: boolean;
-  newDrop?: boolean;
-};
+export { categoryLabels, categoryOptions, products };
+export type { Product, ProductCategory };
 
 export type BlogPost = {
   slug: string;
@@ -57,32 +44,32 @@ export const navigation = [
 
 export const collections = [
   {
-    title: "Oversized T-Shirts",
-    slug: "oversized-t-shirts",
+    title: "Oversized",
+    slug: "oversized",
     label: "Relaxed silhouettes",
     description:
       "Heavyweight cotton tees cut with room to move, layered neutrals, and clean structure.",
-    href: "/shop?category=Oversized%20T-Shirts",
+    href: "/shop?category=oversized",
     image:
       "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=80",
   },
   {
-    title: "Minimal Basics",
-    slug: "minimal-basics",
+    title: "Basics",
+    slug: "basics",
     label: "Daily uniform",
     description:
       "Polished staples designed to anchor the wardrobe with softness, ease, and repeat wear.",
-    href: "/shop?category=Minimal%20Basics",
+    href: "/shop?category=basics",
     image:
       "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80",
   },
   {
-    title: "New Drops",
-    slug: "new-drops",
-    label: "Latest release",
+    title: "Outerwear",
+    slug: "outerwear",
+    label: "Layered utility",
     description:
-      "Fresh arrivals with tonal color, engineered layers, and limited-run statement essentials.",
-    href: "/shop?category=New%20Drops",
+      "Soft hoodies, technical shells, and versatile outer layers designed for movement.",
+    href: "/shop?category=outerwear",
     image:
       "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1200&q=80",
   },
@@ -204,222 +191,6 @@ export const blogPosts: BlogPost[] = [
         ],
       },
     ],
-  },
-];
-
-export const products: Product[] = [
-  {
-    slug: "motion-heavy-tee",
-    name: "Motion Heavy Tee",
-    category: "Oversized T-Shirts",
-    collection: "Best Seller",
-    price: 2490,
-    summary: "Heavyweight cotton with an oversized drape and a clean high-density neckline.",
-    description:
-      "The Motion Heavy Tee is the starting point for the ALPACA wardrobe: dense cotton, a soft brushed hand-feel, and a generous silhouette that falls with intention.",
-    details: [
-      "270 GSM combed cotton jersey",
-      "Relaxed drop shoulder fit",
-      "Ribbed collar with shape retention",
-      "Double needle finish at cuff and hem",
-    ],
-    fit: "Oversized with room through the chest and sleeve.",
-    material: "100% combed cotton",
-    sizes: ["XS", "S", "M", "L", "XL"],
-    colors: [
-      { name: "Stone", hex: "#D9CEC1" },
-      { name: "Graphite", hex: "#505055" },
-      { name: "Milk", hex: "#F7F3ED" },
-    ],
-    images: [
-      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1400&q=80",
-    ],
-    featured: true,
-    bestSeller: true,
-  },
-  {
-    slug: "drift-box-tee",
-    name: "Drift Box Tee",
-    category: "Oversized T-Shirts",
-    collection: "New Drops",
-    price: 2290,
-    summary: "An easy boxy tee built with soft structure and wide tonal versatility.",
-    description:
-      "Cut with a slightly cropped body and generous sleeve, the Drift Box Tee is made for everyday rotation and effortless layering.",
-    details: [
-      "240 GSM cotton knit",
-      "Boxy, cropped proportion",
-      "Enzyme-washed finish",
-      "Soft set-in shoulder seam",
-    ],
-    fit: "Boxy and slightly cropped for a cleaner waist line.",
-    material: "100% midweight cotton",
-    sizes: ["S", "M", "L", "XL"],
-    colors: [
-      { name: "Fog", hex: "#CFCAC5" },
-      { name: "Coal", hex: "#2F3137" },
-      { name: "Sand", hex: "#D9C7B6" },
-    ],
-    images: [
-      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1400&q=80",
-    ],
-    featured: true,
-    newDrop: true,
-  },
-  {
-    slug: "core-rib-tank",
-    name: "Core Rib Tank",
-    category: "Minimal Basics",
-    collection: "Daily Uniform",
-    price: 1490,
-    summary: "A foundational rib tank with a sculpted neckline and close fit.",
-    description:
-      "The Core Rib Tank is designed to sit close without feeling restrictive. Soft stretch rib gives it a refined line for layering or standalone wear.",
-    details: [
-      "Stretch rib knit",
-      "Sculpted neckline",
-      "Twin-needle hem",
-      "Washed neutral palette",
-    ],
-    fit: "Slim close fit.",
-    material: "95% cotton, 5% elastane",
-    sizes: ["XS", "S", "M", "L"],
-    colors: [
-      { name: "Porcelain", hex: "#F6F0E7" },
-      { name: "Taupe", hex: "#B2A090" },
-      { name: "Ink", hex: "#23252C" },
-    ],
-    images: [
-      "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1495385794356-15371f348c31?auto=format&fit=crop&w=1400&q=80",
-    ],
-    featured: true,
-    bestSeller: true,
-  },
-  {
-    slug: "transit-hooded-layer",
-    name: "Transit Hooded Layer",
-    category: "Minimal Basics",
-    collection: "Outer Layer",
-    price: 4490,
-    summary: "Soft fleece-backed hoodie with refined volume and minimal seam detail.",
-    description:
-      "Built for commutes, flights, and cool evenings, the Transit Hooded Layer keeps the front clean and the shape composed.",
-    details: [
-      "Fleece-backed jersey",
-      "Double-layer hood",
-      "Concealed side pockets",
-      "Clean cuff and hem construction",
-    ],
-    fit: "Relaxed fit with room for layering underneath.",
-    material: "Cotton blend fleece",
-    sizes: ["S", "M", "L", "XL"],
-    colors: [
-      { name: "Oat", hex: "#DCCFC2" },
-      { name: "Olive Dust", hex: "#80816F" },
-      { name: "Black", hex: "#1D1B1A" },
-    ],
-    images: [
-      "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1400&q=80",
-    ],
-    bestSeller: true,
-  },
-  {
-    slug: "studio-wide-trouser",
-    name: "Studio Wide Trouser",
-    category: "Minimal Basics",
-    collection: "Daily Uniform",
-    price: 3890,
-    summary: "Fluid wide-leg trouser with a pressed front and easy elasticated comfort.",
-    description:
-      "The Studio Wide Trouser is meant to balance relaxed tops with a longer, cleaner line through the leg.",
-    details: [
-      "Soft twill construction",
-      "Wide leg silhouette",
-      "Pressed front crease",
-      "Comfort waist with internal drawcord",
-    ],
-    fit: "Relaxed through hip and leg.",
-    material: "Poly-cotton twill",
-    sizes: ["S", "M", "L", "XL"],
-    colors: [
-      { name: "Stone", hex: "#CEC0B1" },
-      { name: "Espresso", hex: "#6D5447" },
-      { name: "Black", hex: "#23211F" },
-    ],
-    images: [
-      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1495385794356-15371f348c31?auto=format&fit=crop&w=1400&q=80",
-    ],
-    bestSeller: true,
-  },
-  {
-    slug: "aero-shell-jacket",
-    name: "Aero Shell Jacket",
-    category: "New Drops",
-    collection: "Outer Layer",
-    price: 5990,
-    summary: "Lightweight technical shell for unpredictable weather and constant movement.",
-    description:
-      "Aero is cut to keep the line sharp while staying light on the body. It packs small, layers cleanly, and moves between travel and city wear.",
-    details: [
-      "Water-resistant shell",
-      "Packable structure",
-      "Two-way front zipper",
-      "Elastic hem adjustment",
-    ],
-    fit: "Regular fit intended for layering.",
-    material: "Technical nylon shell",
-    sizes: ["S", "M", "L", "XL"],
-    colors: [
-      { name: "Mist", hex: "#D1D2D4" },
-      { name: "Slate", hex: "#5D646E" },
-      { name: "Sandstone", hex: "#C5AF99" },
-    ],
-    images: [
-      "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1400&q=80",
-    ],
-    newDrop: true,
-  },
-  {
-    slug: "cloud-knit-set",
-    name: "Cloud Knit Set",
-    category: "New Drops",
-    collection: "Set Dressing",
-    price: 5290,
-    summary: "A coordinated knit top and short for slow mornings and clean departures.",
-    description:
-      "The Cloud Knit Set keeps softness front and center while still reading polished. Designed as a complete look or split into separates.",
-    details: [
-      "Fine-gauge knit",
-      "Relaxed camp collar top",
-      "Comfort short with drawcord waist",
-      "Soft-touch finish",
-    ],
-    fit: "Relaxed resort-inspired fit.",
-    material: "Viscose blend knit",
-    sizes: ["S", "M", "L"],
-    colors: [
-      { name: "Ivory", hex: "#EFE8DE" },
-      { name: "Warm Sand", hex: "#C9B39A" },
-      { name: "Mocha", hex: "#846A59" },
-    ],
-    images: [
-      "https://images.unsplash.com/photo-1495385794356-15371f348c31?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1400&q=80",
-    ],
-    newDrop: true,
   },
 ];
 
@@ -563,12 +334,14 @@ export const formatPrice = (amount: number) =>
     maximumFractionDigits: 0,
   }).format(amount);
 
-export const categories = Array.from(new Set(products.map((product) => product.category)));
+export const categories = categoryOptions.map((option) => option.value);
+
+export const getCategoryLabel = (category: ProductCategory) => categoryLabels[category];
 
 export const getProductBySlug = (slug: string) =>
   products.find((product) => product.slug === slug);
 
-export const getRelatedProducts = (slug: string, category: string) =>
+export const getRelatedProducts = (slug: string, category: ProductCategory) =>
   products.filter((product) => product.slug !== slug && product.category === category).slice(0, 4);
 
 export const getBlogPostBySlug = (slug: string) =>

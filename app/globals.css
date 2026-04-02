@@ -18,9 +18,9 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    radial-gradient(circle at top left, rgba(222, 205, 189, 0.58), transparent 35%),
-    radial-gradient(circle at top right, rgba(255, 255, 255, 0.96), transparent 32%),
-    linear-gradient(180deg, #fcfaf7 0%, #f8f5f2 48%, #f3ece5 100%);
+    radial-gradient(circle at top left, rgba(222, 205, 189, 0.58), transparent 32%),
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.96), transparent 30%),
+    linear-gradient(180deg, #fcfaf7 0%, #f8f5f2 45%, #f3ece5 100%);
   color: #181512;
   font-family: "Manrope", sans-serif;
   text-rendering: optimizeLegibility;
@@ -96,13 +96,26 @@ img {
   .text-balance {
     text-wrap: balance;
   }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }
 
-/* .hero-img{height: 400px !important;} */
-
-@media (min-width: 1024px){
-    .section-space {
-      padding-top: 3rem !important;
-      padding-bottom: 4.5rem;
-    }
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
+}
+
+@media (min-width: 1024px) {
+  .section-space {
+    padding-top: 2.5rem !important;
+    padding-bottom: 4.5rem;
+  }
+}

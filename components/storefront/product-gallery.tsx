@@ -8,23 +8,27 @@ export function ProductGallery({ images, alt }: { images: string[]; alt: string 
 
   return (
     <div className="space-y-4">
-      <div className="surface-card relative aspect-[4/5] overflow-hidden bg-surface-muted">
+      <div className="surface-card group relative aspect-[4/5] overflow-hidden rounded-[32px] bg-surface-muted">
         <Image
           src={activeImage}
           alt={alt}
           fill
           sizes="(min-width: 1024px) 48vw, 100vw"
-          className="object-cover"
+          className="object-cover transition duration-700 group-hover:scale-[1.05]"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-dark/10 via-transparent to-transparent" />
       </div>
-      <div className="grid grid-cols-3 gap-3">
+
+      <div className="flex gap-3 overflow-x-auto pb-1 no-scrollbar">
         {images.map((image, index) => (
           <button
             key={`${image}-${index}`}
             type="button"
             onClick={() => setActiveImage(image)}
-            className={`surface-card relative aspect-[4/5] overflow-hidden ${
-              activeImage === image ? "ring-1 ring-dark" : "opacity-75 hover:opacity-100"
+            className={`surface-card relative aspect-[4/5] min-w-[88px] flex-[0_0_88px] overflow-hidden rounded-2xl transition ${
+              activeImage === image
+                ? "ring-1 ring-dark"
+                : "opacity-75 hover:-translate-y-0.5 hover:opacity-100"
             }`}
           >
             <Image

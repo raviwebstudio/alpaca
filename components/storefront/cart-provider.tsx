@@ -20,21 +20,79 @@ export type CartItem = {
   quantity: number;
 };
 
+export type CheckoutAddress = {
+  name: string;
+  phone: string;
+  address: string;
+  city: string;
+  state: string;
+  pincode: string;
+};
+
+export type PaymentMethod = "upi" | "card" | "netbanking";
+
+export type OrderRecord = {
+  reference: string;
+  items: CartItem[];
+  subtotal: number;
+  shipping: number;
+  total: number;
+  address: CheckoutAddress;
+  paymentMethod: PaymentMethod;
+  placedAt: string;
+};
+
+type CheckoutOverrides = {
+  address?: CheckoutAddress;
+  paymentMethod?: PaymentMethod;
+};
+
 type CartContextValue = {
+  hydrated: boolean;
   items: CartItem[];
   itemCount: number;
   subtotal: number;
+  shipping: number;
+  total: number;
+  checkoutAddress: CheckoutAddress;
+  paymentMethod: PaymentMethod;
+  lastOrder: OrderRecord | null;
   addItem: (item: Omit<CartItem, "id" | "quantity">, quantity?: number) => void;
   updateQuantity: (id: string, quantity: number) => void;
   removeItem: (id: string) => void;
   clearCart: () => void;
+  saveCheckoutAddress: (address: CheckoutAddress) => void;
+  setPaymentMethod: (method: PaymentMethod) => void;
+  completeOrder: (overrides?: CheckoutOverrides) => OrderRecord | null;
+  clearLastOrder: () => void;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
 const STORAGE_KEY = "alpaca-cart";
+const DEFAULT_ADDRESS: CheckoutAddress = {
+  name: "",
+  phone: "",
+  address: "",
+  city: "",
+  state: "",
+  pincode: "",
+};
+
+const getShipping = (subtotal: number, itemCount: number) =>
+  subtotal >= 4999 ? 0 : itemCount ? 249 : 0;
+
+type StoredState = {
+  items?: CartItem[];
+  checkoutAddress?: CheckoutAddress;
+  paymentMethod?: PaymentMethod;
+  lastOrder?: OrderRecord | null;
+};
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [checkoutAddress, setCheckoutAddress] = useState<CheckoutAddress>(DEFAULT_ADDRESS);
+  const [paymentMethod, setPaymentMethodState] = useState<PaymentMethod>("upi");
+  const [lastOrder, setLastOrder] = useState<OrderRecord | null>(null);
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
@@ -42,9 +100,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     if (stored) {
       try {
-        // Reading persisted cart state is a one-time client hydration step.
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        setItems(JSON.parse(stored));
+        const parsed = JSON.parse(stored) as StoredState | CartItem[];
+
+        if (Array.isArray(parsed)) {
+          // Backward compatibility for the previous cart-only storage shape.
+          // eslint-disable-next-line react-hooks/set-state-in-effect
+          setItems(parsed);
+        } else {
+          setItems(parsed.items ?? []);
+          setCheckoutAddress(parsed.checkoutAddress ?? DEFAULT_ADDRESS);
+          setPaymentMethodState(parsed.paymentMethod ?? "upi");
+          setLastOrder(parsed.lastOrder ?? null);
+        }
       } catch {
         window.localStorage.removeItem(STORAGE_KEY);
       }
@@ -58,8 +125,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-  }, [hydrated, items]);
+    const state: StoredState = {
+      items,
+      checkoutAddress,
+      paymentMethod,
+      lastOrder,
+    };
+
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }, [checkoutAddress, hydrated, items, lastOrder, paymentMethod]);
 
   const addItem = (item: Omit<CartItem, "id" | "quantity">, quantity = 1) => {
     setItems((current) => {
@@ -92,17 +166,68 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems([]);
   };
 
+  const saveCheckoutAddress = (address: CheckoutAddress) => {
+    setCheckoutAddress(address);
+  };
+
+  const setPaymentMethod = (method: PaymentMethod) => {
+    setPaymentMethodState(method);
+  };
+
+  const clearLastOrder = () => {
+    setLastOrder(null);
+  };
+
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const shipping = getShipping(subtotal, itemCount);
+  const total = subtotal + shipping;
+
+  const completeOrder = (overrides?: CheckoutOverrides) => {
+    if (!items.length) {
+      return null;
+    }
+
+    const address = overrides?.address ?? checkoutAddress;
+    const method = overrides?.paymentMethod ?? paymentMethod;
+
+    const order: OrderRecord = {
+      reference: `ALP-${Date.now().toString().slice(-6)}`,
+      items,
+      subtotal,
+      shipping,
+      total,
+      address,
+      paymentMethod: method,
+      placedAt: new Date().toISOString(),
+    };
+
+    setLastOrder(order);
+    setItems([]);
+    setCheckoutAddress(DEFAULT_ADDRESS);
+    setPaymentMethodState("upi");
+
+    return order;
+  };
 
   const value: CartContextValue = {
+    hydrated,
     items,
     itemCount,
     subtotal,
+    shipping,
+    total,
+    checkoutAddress,
+    paymentMethod,
+    lastOrder,
     addItem,
     updateQuantity,
     removeItem,
     clearCart,
+    saveCheckoutAddress,
+    setPaymentMethod,
+    completeOrder,
+    clearLastOrder,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

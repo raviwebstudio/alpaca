@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { blogPosts, legalDocuments, products } from "@/lib/storefront";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://alpaca-fashion.com";
+  const baseUrl = "https://alpacaa.in";
   const staticRoutes = [
     "",
     "/shop",
@@ -11,6 +11,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
     "/cart",
     "/checkout",
+    "/checkout/address",
+    "/checkout/payment",
+    "/checkout/success",
   ];
 
   return [
