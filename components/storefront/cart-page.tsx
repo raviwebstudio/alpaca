@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { CheckoutProgress } from "@/components/storefront/checkout-progress";
+import { FadeIn } from "@/components/storefront/fade-in";
 import { OrderSummaryCard } from "@/components/storefront/order-summary-card";
 import { useCart } from "@/components/storefront/cart-provider";
 import { formatPrice } from "@/lib/storefront";
@@ -14,7 +15,7 @@ export function CartPage() {
   if (!items.length) {
     return (
       <section className="shell section-space">
-        <div className="surface-card rounded-[32px] px-6 py-16 text-center sm:px-10">
+        <FadeIn className="surface-card rounded-[32px] px-6 py-16 text-center sm:px-10">
           <p className="eyebrow">Your cart</p>
           <h1 className="mt-4 text-5xl text-dark sm:text-6xl">Nothing here yet.</h1>
           <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-text-secondary sm:text-lg">
@@ -27,17 +28,19 @@ export function CartPage() {
           >
             Continue shopping
           </Link>
-        </div>
+        </FadeIn>
       </section>
     );
   }
 
   return (
     <section className="shell section-space space-y-8">
-      <CheckoutProgress current="cart" />
+      <FadeIn>
+        <CheckoutProgress current="cart" />
+      </FadeIn>
 
       <div className="grid gap-10 md:grid-cols-3">
-        <div className="space-y-5 md:col-span-2">
+        <FadeIn className="space-y-5 md:col-span-2">
           <div className="space-y-3">
             <p className="eyebrow">Shopping bag</p>
             <h1 className="text-balance text-4xl text-dark sm:text-5xl">Your selected wardrobe.</h1>
@@ -64,7 +67,12 @@ export function CartPage() {
                 <div className="space-y-3">
                   <div className="flex flex-wrap items-start justify-between gap-4">
                     <div className="space-y-1">
-                      <h2 className="text-2xl text-dark sm:text-3xl">{item.title}</h2>
+                      <Link
+                        href={`/product/${item.slug}`}
+                        className="text-2xl text-dark transition hover:underline sm:text-3xl"
+                      >
+                        {item.title}
+                      </Link>
                       <p className="text-sm text-text-secondary">
                         Size {item.size} / {item.color}
                       </p>
@@ -115,24 +123,26 @@ export function CartPage() {
               </div>
             </article>
           ))}
-        </div>
+        </FadeIn>
 
-        <OrderSummaryCard
-          items={items}
-          subtotal={subtotal}
-          shipping={shipping}
-          total={total}
-          note="Complimentary shipping unlocks automatically on orders above INR 4,999."
-          footer={
-            <Link
-              href="/checkout/address"
-              className="inline-flex w-full items-center justify-center rounded-xl border border-dark bg-dark px-6 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:opacity-95"
-            >
-              Checkout
-            </Link>
-          }
-          className="h-fit md:sticky md:top-28"
-        />
+        <FadeIn delay={0.08}>
+          <OrderSummaryCard
+            items={items}
+            subtotal={subtotal}
+            shipping={shipping}
+            total={total}
+            note="Complimentary shipping unlocks automatically on orders above INR 4,999."
+            footer={
+              <Link
+                href="/checkout/address"
+                className="inline-flex w-full items-center justify-center rounded-xl border border-dark bg-dark px-6 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:opacity-95"
+              >
+                Checkout
+              </Link>
+            }
+            className="h-fit md:sticky md:top-28"
+          />
+        </FadeIn>
       </div>
     </section>
   );

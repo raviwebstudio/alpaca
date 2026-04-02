@@ -117,7 +117,7 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
   };
 
   return (
-    <div className="relative">
+    <div className="relative max-w-full overflow-hidden">
       <div className="mb-6 hidden justify-end gap-2 md:flex">
         <button
           type="button"
@@ -148,16 +148,16 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
         onPointerLeave={stopDragging}
         onClickCapture={handleClickCapture}
         className={clsx(
-          "no-scrollbar overflow-x-auto cursor-grab scroll-smooth rounded-[28px] [scrollbar-width:none] active:cursor-grabbing",
+          "no-scrollbar max-w-full overflow-x-auto cursor-grab scroll-smooth rounded-[28px] [scrollbar-width:none] active:cursor-grabbing",
           "touch-pan-y select-none",
           dragging && "cursor-grabbing",
         )}
       >
-        <div className="flex gap-6 px-1 py-1 snap-x snap-mandatory">
+        <div className="flex min-w-max gap-6 px-1 py-1 snap-x snap-mandatory">
           {products.map((product) => (
             <div
               key={product.slug}
-              className="min-w-[280px] max-w-[320px] flex-[0_0_300px] snap-start"
+              className="w-[300px] max-w-[320px] flex-[0_0_300px] snap-start"
             >
               <ProductCard product={product} className="h-full" />
             </div>

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, PackageCheck, ShieldCheck, Sparkles, Truck } from "lucide-react";
 import { BlogCard } from "@/components/storefront/blog-card";
+import { FadeIn } from "@/components/storefront/fade-in";
 import { ProductCarousel } from "@/components/storefront/product-carousel";
 import { SectionHeading } from "@/components/storefront/section-heading";
 import { blogPosts, collections, metrics, products, reasons } from "@/lib/storefront";
@@ -26,6 +27,7 @@ const whyAlpaca = [
 export default function HomePage() {
   return (
     <>
+      <FadeIn>
       <section className="shell section-space grid gap-8 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
         <div className="space-y-8 motion-safe:animate-fade-up">
           <div className="space-y-5">
@@ -53,7 +55,7 @@ export default function HomePage() {
               href="/shop"
               className="inline-flex items-center rounded-xl border border-line bg-white px-6 py-3.5 text-sm font-semibold text-dark transition hover:-translate-y-0.5 hover:border-dark"
             >
-              New drops
+              Browse catalog
             </Link>
           </div>
 
@@ -110,7 +112,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      </FadeIn>
 
+      <FadeIn delay={0.05}>
       <section className="shell section-space pt-0 motion-safe:animate-fade-up">
         <SectionHeading
           eyebrow="Best Sellers"
@@ -121,6 +125,7 @@ export default function HomePage() {
           <ProductCarousel products={bestSellers} />
         </div>
       </section>
+      </FadeIn>
 
       {/* <section className="shell section-space pt-0 motion-safe:animate-fade-up">
         <div className="surface-card rounded-[36px] p-6 sm:p-8 lg:p-10">
@@ -156,6 +161,7 @@ export default function HomePage() {
         </div>
       </section> */}
 
+      <FadeIn delay={0.08}>
       <section className="shell section-space pt-0 motion-safe:animate-fade-up">
         <div className="grid gap-5 lg:grid-cols-3">
           {collections.map((collection, index) => (
@@ -192,7 +198,9 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+      </FadeIn>
 
+      <FadeIn delay={0.1}>
       <section className="shell section-space pt-0 motion-safe:animate-fade-up">
         <SectionHeading
           eyebrow="Why ALPACA"
@@ -211,11 +219,12 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+      </FadeIn>
 
+      <FadeIn delay={0.12}>
       <section className="shell section-space pt-0 motion-safe:animate-fade-up">
         <div className="surface-card rounded-[36px] p-8 sm:p-12 lg:p-14">
-          <div className="grid gap-10 lg:grid-cols-[1fr_0.95fr] lg:items-center">
-            <div>
+          <div>
               <p className="eyebrow">Movement notes</p>
               <h2 className="mt-4 text-balance text-5xl leading-[0.96] text-dark sm:text-6xl">
                 A quieter wardrobe with enough range for real life.
@@ -233,14 +242,16 @@ export default function HomePage() {
                 ))}
               </div>
             </div>
-
+          <div className="grid gap-10 lg:grid-cols-[1fr_0.95fr] lg:items-center">
             <div>
               <ProductCarousel products={newDrops} />
             </div>
           </div>
         </div>
       </section>
+      </FadeIn>
 
+      <FadeIn delay={0.14}>
       <section className="shell section-space pt-0 motion-safe:animate-fade-up">
         <div className="flex items-end justify-between gap-4">
           <SectionHeading
@@ -258,6 +269,7 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+      </FadeIn>
     </>
   );
 }

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import { CheckoutProgress } from "@/components/storefront/checkout-progress";
+import { FadeIn } from "@/components/storefront/fade-in";
 import { formatPrice } from "@/lib/storefront";
 import { useCart } from "@/components/storefront/cart-provider";
 
@@ -21,10 +22,10 @@ export function SuccessPage() {
   if (!hydrated) {
     return (
       <section className="shell section-space">
-        <div className="surface-card rounded-[32px] p-8 text-center">
+        <FadeIn className="surface-card rounded-[32px] p-8 text-center">
           <p className="eyebrow">Order</p>
           <h1 className="mt-4 text-4xl text-dark sm:text-5xl">Confirming your order.</h1>
-        </div>
+        </FadeIn>
       </section>
     );
   }
@@ -35,9 +36,11 @@ export function SuccessPage() {
 
   return (
     <section className="shell section-space space-y-8">
-      <CheckoutProgress current="success" />
+      <FadeIn>
+        <CheckoutProgress current="success" />
+      </FadeIn>
 
-      <div className="surface-card rounded-[36px] p-8 sm:p-12">
+      <FadeIn className="surface-card rounded-[36px] p-8 sm:p-12">
         <div className="mx-auto max-w-3xl text-center">
           <span className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-[#F0E7DD] text-dark">
             <CheckCircle2 className="h-8 w-8" />
@@ -124,7 +127,7 @@ export function SuccessPage() {
             Back to home
           </Link>
         </div>
-      </div>
+      </FadeIn>
     </section>
   );
 }

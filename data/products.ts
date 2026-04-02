@@ -1,10 +1,4 @@
-export const categoryOptions = [
-  { value: "oversized", label: "Oversized" },
-  { value: "basics", label: "Basics" },
-  { value: "outerwear", label: "Outerwear" },
-] as const;
-
-export type ProductCategory = (typeof categoryOptions)[number]["value"];
+export type ProductCategory = "oversized" | "basics" | "outerwear";
 
 export type Product = {
   id: number;
@@ -28,18 +22,6 @@ export const categoryLabels: Record<ProductCategory, string> = {
   oversized: "Oversized",
   basics: "Basics",
   outerwear: "Outerwear",
-};
-
-export const normalizeProductCategory = (
-  value: string | string[] | null | undefined,
-): ProductCategory | "all" => {
-  if (typeof value !== "string") {
-    return "all";
-  }
-
-  return categoryOptions.some((option) => option.value === value)
-    ? (value as ProductCategory)
-    : "all";
 };
 
 export const products: Product[] = [
@@ -262,3 +244,66 @@ export const products: Product[] = [
     newDrop: true,
   },
 ];
+
+export const productCategories = Array.from(
+  new Set(products.map((product) => product.category)),
+) as ProductCategory[];
+
+export const productSizes = Array.from(
+  new Set(products.flatMap((product) => product.sizes)),
+);
+
+const colorLabels: Record<string, string> = {
+  "#D1C7B7": "Warm Sand",
+  "#000000": "Black",
+  "#EDEAE6": "Soft Ivory",
+  "#F8F5F2": "Porcelain",
+  "#333333": "Charcoal",
+  "#CFCAC5": "Fog",
+  "#2F3137": "Coal",
+  "#D9C7B6": "Sandstone",
+  "#F4EEE6": "Bone",
+  "#4C4C50": "Graphite",
+  "#B8AA9B": "Taupe",
+  "#EFE6DB": "Oat",
+  "#202124": "Ink",
+  "#F6F1EA": "Cream",
+  "#1F2024": "Midnight",
+  "#B89A82": "Clay",
+  "#111111": "Onyx",
+  "#EDE8E1": "Shell",
+  "#C5B7A6": "Mushroom",
+  "#F3EDE4": "Sand",
+  "#3C3D42": "Slate",
+  "#D1D2D4": "Mist",
+  "#5D646E": "Steel",
+  "#C5AF99": "Stone",
+  "#26272B": "Jet",
+  "#8B8478": "Pebble",
+  "#DDD2C6": "Ecru",
+  "#5B534B": "Umber",
+  "#141516": "Night",
+};
+
+export const getColorLabel = (colorHex: string) =>
+  colorLabels[colorHex.toUpperCase()] ?? colorHex.toUpperCase();
+
+export const normalizeProductCategory = (
+  value: string | string[] | null | undefined,
+): ProductCategory | "all" => {
+  if (typeof value !== "string") {
+    return "all";
+  }
+
+  return productCategories.includes(value as ProductCategory)
+    ? (value as ProductCategory)
+    : "all";
+};
+
+export const normalizeProductSize = (value: string | string[] | null | undefined) => {
+  if (typeof value !== "string") {
+    return "all";
+  }
+
+  return productSizes.includes(value) ? value : "all";
+};

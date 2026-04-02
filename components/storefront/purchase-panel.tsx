@@ -3,12 +3,12 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight, ShoppingBag } from "lucide-react";
-import { Product, formatPrice, getCategoryLabel } from "@/lib/storefront";
+import { Product, formatPrice, getCategoryLabel, getColorLabel } from "@/lib/storefront";
 import { useCart } from "@/components/storefront/cart-provider";
 
 export function PurchasePanel({ product }: { product: Product }) {
   const router = useRouter();
-  const { addItem } = useCart();
+  const { addToCart } = useCart();
   const [selectedSize, setSelectedSize] = useState(product.sizes[0] ?? "");
   const [selectedColor, setSelectedColor] = useState(product.colors[0] ?? "");
   const [addedToCart, setAddedToCart] = useState(false);
@@ -26,13 +26,13 @@ export function PurchasePanel({ product }: { product: Product }) {
   }, [addedToCart]);
 
   const handleAddToCart = () => {
-    addItem({
+    addToCart({
       slug: product.slug,
       title: product.title,
       price: product.price,
       image: product.images[0],
       size: selectedSize,
-      color: selectedColor.toUpperCase(),
+      color: getColorLabel(selectedColor),
       colorHex: selectedColor,
     });
     setAddedToCart(true);
@@ -96,7 +96,7 @@ export function PurchasePanel({ product }: { product: Product }) {
                   className="h-4 w-4 rounded-full border border-black/10"
                   style={{ backgroundColor: color }}
                 />
-                {color.toUpperCase()}
+                {getColorLabel(color)}
               </button>
             ))}
           </div>

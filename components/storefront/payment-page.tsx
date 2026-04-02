@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import clsx from "clsx";
 import { CheckoutProgress } from "@/components/storefront/checkout-progress";
+import { FadeIn } from "@/components/storefront/fade-in";
 import {
   type PaymentMethod,
   useCart,
@@ -76,10 +77,10 @@ export function PaymentPage() {
   if (!hydrated) {
     return (
       <section className="shell section-space">
-        <div className="surface-card rounded-[32px] p-8 text-center">
+        <FadeIn className="surface-card rounded-[32px] p-8 text-center">
           <p className="eyebrow">Payment</p>
           <h1 className="mt-4 text-4xl text-dark sm:text-5xl">Loading your order.</h1>
-        </div>
+        </FadeIn>
       </section>
     );
   }
@@ -90,13 +91,16 @@ export function PaymentPage() {
 
   return (
     <section className="shell section-space space-y-8">
-      <CheckoutProgress current="payment" />
+      <FadeIn>
+        <CheckoutProgress current="payment" />
+      </FadeIn>
 
       <div className="grid gap-10 md:grid-cols-3">
-        <form
-          onSubmit={handleSubmit}
-          className="surface-card md:col-span-2 rounded-[32px] p-6 sm:p-8"
-        >
+        <FadeIn className="md:col-span-2">
+          <form
+            onSubmit={handleSubmit}
+            className="surface-card rounded-[32px] p-6 sm:p-8"
+          >
           <div className="space-y-3">
             <p className="eyebrow">Payment</p>
             <h1 className="text-balance text-4xl text-dark sm:text-5xl">Choose a prepaid method.</h1>
@@ -165,15 +169,18 @@ export function PaymentPage() {
               Edit address
             </Link>
           </div>
-        </form>
+          </form>
+        </FadeIn>
 
-        <OrderSummaryCard
-          items={items}
-          subtotal={subtotal}
-          shipping={shipping}
-          total={total}
-          note="Secure prepaid checkout. You will receive order confirmation immediately after payment."
-        />
+        <FadeIn delay={0.08}>
+          <OrderSummaryCard
+            items={items}
+            subtotal={subtotal}
+            shipping={shipping}
+            total={total}
+            note="Secure prepaid checkout. You will receive order confirmation immediately after payment."
+          />
+        </FadeIn>
       </div>
     </section>
   );

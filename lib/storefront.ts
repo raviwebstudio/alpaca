@@ -1,12 +1,13 @@
 import {
   categoryLabels,
-  categoryOptions,
+  getColorLabel,
+  productCategories,
   products,
   type Product,
   type ProductCategory,
 } from "@/data/products";
 
-export { categoryLabels, categoryOptions, products };
+export { categoryLabels, getColorLabel, productCategories, products };
 export type { Product, ProductCategory };
 
 export type BlogPost = {
@@ -334,7 +335,7 @@ export const formatPrice = (amount: number) =>
     maximumFractionDigits: 0,
   }).format(amount);
 
-export const categories = categoryOptions.map((option) => option.value);
+export const categories = productCategories;
 
 export const getCategoryLabel = (category: ProductCategory) => categoryLabels[category];
 

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ShopPageContent } from "@/components/storefront/shop-page-content";
-import { normalizeProductCategory } from "@/data/products";
+import { normalizeProductCategory, normalizeProductSize } from "@/data/products";
 
 export const metadata: Metadata = {
   title: "Shop",
@@ -11,12 +11,16 @@ export const metadata: Metadata = {
 type ShopPageProps = {
   searchParams: Promise<{
     category?: string | string[];
+    size?: string | string[];
   }>;
 };
 
 export default async function ShopPage({ searchParams }: ShopPageProps) {
   const params = await searchParams;
-  const initialCategory = normalizeProductCategory(params.category);
+  const initialFilters = {
+    category: normalizeProductCategory(params.category),
+    size: normalizeProductSize(params.size),
+  };
 
-  return <ShopPageContent initialCategory={initialCategory} />;
+  return <ShopPageContent initialFilters={initialFilters} />;
 }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, ShoppingBag, X } from "lucide-react";
 import clsx from "clsx";
+import { AnimatePresence, motion } from "framer-motion";
 import { navigation } from "@/lib/storefront";
 import { useCart } from "@/components/storefront/cart-provider";
 import { useState } from "react";
@@ -78,25 +79,33 @@ export function SiteHeader() {
         </div>
       </div>
 
-      {menuOpen ? (
-        <div className="border-t border-line bg-background md:hidden">
-          <div className="shell flex flex-col gap-1 py-4">
-            {navigation.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setMenuOpen(false)}
-                className={clsx(
-                  "rounded-2xl px-4 py-3 text-sm font-medium text-text-secondary transition-colors duration-300 hover:bg-white hover:text-dark",
-                  pathname === item.href && "bg-white text-dark",
-                )}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
-        </div>
-      ) : null}
+      <AnimatePresence initial={false}>
+        {menuOpen ? (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden border-t border-line bg-background md:hidden"
+          >
+            <div className="shell flex flex-col gap-1 py-4">
+              {navigation.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMenuOpen(false)}
+                  className={clsx(
+                    "rounded-2xl px-4 py-3 text-sm font-medium text-text-secondary transition-colors duration-300 hover:bg-white hover:text-dark",
+                    pathname === item.href && "bg-white text-dark",
+                  )}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </header>
   );
 }

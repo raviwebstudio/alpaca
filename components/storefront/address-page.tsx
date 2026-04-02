@@ -4,6 +4,7 @@ import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { CheckoutProgress } from "@/components/storefront/checkout-progress";
+import { FadeIn } from "@/components/storefront/fade-in";
 import {
   type CheckoutAddress,
   useCart,
@@ -57,10 +58,10 @@ export function AddressPage() {
   if (!hydrated) {
     return (
       <section className="shell section-space">
-        <div className="surface-card rounded-[32px] p-8 text-center">
+        <FadeIn className="surface-card rounded-[32px] p-8 text-center">
           <p className="eyebrow">Checkout</p>
           <h1 className="mt-4 text-4xl text-dark sm:text-5xl">Preparing your checkout.</h1>
-        </div>
+        </FadeIn>
       </section>
     );
   }
@@ -71,13 +72,16 @@ export function AddressPage() {
 
   return (
     <section className="shell section-space space-y-8">
-      <CheckoutProgress current="address" />
+      <FadeIn>
+        <CheckoutProgress current="address" />
+      </FadeIn>
 
       <div className="grid gap-10 md:grid-cols-3">
-        <form
-          onSubmit={handleSubmit}
-          className="surface-card md:col-span-2 rounded-[32px] p-6 sm:p-8"
-        >
+        <FadeIn className="md:col-span-2">
+          <form
+            onSubmit={handleSubmit}
+            className="surface-card rounded-[32px] p-6 sm:p-8"
+          >
           <div className="max-w-2xl space-y-3">
             <p className="eyebrow">Delivery Address</p>
             <h1 className="text-balance text-4xl text-dark sm:text-5xl">Where should we send it?</h1>
@@ -173,15 +177,18 @@ export function AddressPage() {
               Back to cart
             </Link>
           </div>
-        </form>
+          </form>
+        </FadeIn>
 
-        <OrderSummaryCard
-          items={items}
-          subtotal={subtotal}
-          shipping={shipping}
-          total={total}
-          note="Orders usually reach metro cities in 2-4 days after dispatch."
-        />
+        <FadeIn delay={0.08}>
+          <OrderSummaryCard
+            items={items}
+            subtotal={subtotal}
+            shipping={shipping}
+            total={total}
+            note="Orders usually reach metro cities in 2-4 days after dispatch."
+          />
+        </FadeIn>
       </div>
     </section>
   );
