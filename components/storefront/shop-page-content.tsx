@@ -2,11 +2,18 @@
 
 import { useEffect, useState, useTransition } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { ProductCard } from "@/components/storefront/product-card";
+import { ProductCard } from "@/components/ProductCard";
 import { SectionHeading } from "@/components/storefront/section-heading";
 import { FadeIn } from "@/components/storefront/fade-in";
-import { productCategories, products, productSizes, type ProductCategory } from "@/data/products";
-import { categoryLabels } from "@/lib/storefront";
+import {
+  categoryDescriptions,
+  filterProducts,
+  getCategoryLabel,
+  productCategoryOptions,
+  products,
+  productSizes,
+  type ProductCategory,
+} from "@/data/products";
 
 type Filters = {
   category: ProductCategory | "all";
@@ -27,7 +34,6 @@ export function ShopPageContent({ initialFilters }: ShopPageContentProps) {
     setFilters(initialFilters);
   }, [initialFilters]);
 
-  const categories = ["all", ...productCategories] as const;
   const sizes = ["all", ...productSizes];
 
   const updateFilters = (nextFilters: Filters) => {
@@ -49,12 +55,17 @@ export function ShopPageContent({ initialFilters }: ShopPageContentProps) {
     });
   };
 
-  const filteredProducts = products.filter((product) => {
-    return (
-      (filters.category === "all" || product.category === filters.category) &&
-      (filters.size === "all" || product.sizes.includes(filters.size))
-    );
-  });
+  const filteredProducts = filterProducts(products, filters);
+  const categoryScopedCount = (category: ProductCategory | "all") =>
+    filterProducts(products, {
+      category,
+      size: filters.size,
+    }).length;
+  const sizeScopedCount = (size: string) =>
+    filterProducts(products, {
+      category: filters.category,
+      size,
+    }).length;
 
   return (
     <section className="shell section-space">
@@ -62,84 +73,104 @@ export function ShopPageContent({ initialFilters }: ShopPageContentProps) {
         <FadeIn>
           <SectionHeading
             eyebrow="Shop"
-            title="Premium wardrobe essentials with room to breathe."
-            description="Filter by category and size to narrow the catalog, then open any product for details and checkout."
+            title="Find the right product before you commit."
+            description="Use the filters on the left to narrow by category and size. Then open a product card to choose color, add it to cart, and continue to checkout."
           />
-        </FadeIn>
-
-        <FadeIn delay={0.05}>
-          <div className="flex flex-wrap gap-3">
-            {categories.map((category) => {
-              const active = filters.category === category;
-              const label = category === "all" ? "All products" : categoryLabels[category];
-
-              return (
-                <button
-                  key={category}
-                  type="button"
-                  onClick={() => updateFilters({ ...filters, category })}
-                  className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
-                    active
-                      ? "border-dark bg-dark text-white"
-                      : "border-line bg-white text-dark hover:-translate-y-0.5 hover:border-dark"
-                  }`}
-                >
-                  {label}
-                </button>
-              );
-            })}
-          </div>
         </FadeIn>
 
         <div className="grid gap-8 lg:grid-cols-[280px_minmax(0,1fr)]">
           <FadeIn delay={0.1}>
             <aside className="surface-card h-fit rounded-[32px] p-6 lg:sticky lg:top-28">
-              <div className="space-y-6">
+              <div className="space-y-8">
                 <div className="space-y-3">
-                  <label
-                    htmlFor="category"
-                    className="text-sm font-semibold uppercase tracking-[0.24em] text-text-secondary"
-                  >
-                    Category
-                  </label>
-                  <select
-                    id="category"
-                    value={filters.category}
-                    onChange={(e) =>
-                      updateFilters({
-                        ...filters,
-                        category: e.target.value as ProductCategory | "all",
-                      })
-                    }
-                    className="w-full rounded-2xl border border-line bg-background px-4 py-3 text-sm text-dark outline-none transition focus:border-dark"
-                  >
-                    {categories.map((category) => (
-                      <option key={category} value={category}>
-                        {category === "all" ? "All categories" : categoryLabels[category]}
-                      </option>
-                    ))}
-                  </select>
+                  <p className="eyebrow">Filters</p>
+                  <h2 className="text-3xl text-dark">Narrow the catalog.</h2>
+                  <p className="text-sm leading-6 text-text-secondary">
+                    Start with a category, then pick the size you want to buy.
+                  </p>
                 </div>
 
                 <div className="space-y-3">
-                  <label
-                    htmlFor="size"
-                    className="text-sm font-semibold uppercase tracking-[0.24em] text-text-secondary"
-                  >
+                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-text-secondary">
+                    Category
+                  </p>
+                  <div className="space-y-2">
+                    <button
+                      type="button"
+                      onClick={() => updateFilters({ ...filters, category: "all" })}
+                      className={`w-full rounded-2xl border p-4 text-left transition ${
+                        filters.category === "all"
+                          ? "border-dark bg-dark text-white"
+                          : "border-line bg-white hover:-translate-y-0.5 hover:border-dark"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="font-semibold">All products</span>
+                        <span className="text-sm">{categoryScopedCount("all")}</span>
+                      </div>
+                      <p
+                        className={`mt-1 text-sm ${
+                          filters.category === "all" ? "text-white/80" : "text-text-secondary"
+                        }`}
+                      >
+                        Browse the full ALPACA catalog.
+                      </p>
+                    </button>
+
+                    {productCategoryOptions.map((category) => {
+                      const active = filters.category === category.value;
+
+                      return (
+                        <button
+                          key={category.value}
+                          type="button"
+                          onClick={() => updateFilters({ ...filters, category: category.value })}
+                          className={`w-full rounded-2xl border p-4 text-left transition ${
+                            active
+                              ? "border-dark bg-dark text-white"
+                              : "border-line bg-white hover:-translate-y-0.5 hover:border-dark"
+                          }`}
+                        >
+                          <div className="flex items-center justify-between gap-3">
+                            <span className="font-semibold">{category.label}</span>
+                            <span className="text-sm">{categoryScopedCount(category.value)}</span>
+                          </div>
+                          <p className={`mt-1 text-sm ${active ? "text-white/80" : "text-text-secondary"}`}>
+                            {category.description}
+                          </p>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-text-secondary">
                     Size
-                  </label>
-                  <select
-                    id="size"
-                    value={filters.size}
-                    onChange={(e) => updateFilters({ ...filters, size: e.target.value })}
-                    className="w-full rounded-2xl border border-line bg-background px-4 py-3 text-sm text-dark outline-none transition focus:border-dark"
-                  >
-                    {sizes.map((size) => (
-                      <option key={size} value={size}>
-                        {size === "all" ? "All sizes" : size}
-                      </option>
-                    ))}
-                  </select>
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {sizes.map((size) => {
+                      const active = filters.size === size;
+
+                      return (
+                        <button
+                          key={size}
+                          type="button"
+                          onClick={() => updateFilters({ ...filters, size })}
+                          className={`inline-flex items-center gap-2 rounded-full border px-4 py-2.5 text-sm font-semibold transition ${
+                            active
+                              ? "border-dark bg-dark text-white"
+                              : "border-line bg-white text-dark hover:-translate-y-0.5 hover:border-dark"
+                          }`}
+                        >
+                          <span>{size === "all" ? "All sizes" : size}</span>
+                          <span className={active ? "text-white/80" : "text-text-secondary"}>
+                            {sizeScopedCount(size)}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 <button
@@ -154,19 +185,49 @@ export function ShopPageContent({ initialFilters }: ShopPageContentProps) {
           </FadeIn>
 
           <FadeIn delay={0.15} className="min-w-0">
-            <div className="space-y-6 min-w-0">
+            <div className="min-w-0 space-y-6">
               <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="space-y-1">
+                  <p className="text-sm text-text-secondary">
+                    Showing <span className="font-semibold text-dark">{filteredProducts.length}</span> of{" "}
+                    <span className="font-semibold text-dark">{products.length}</span> products
+                  </p>
+                  <p className="text-sm text-text-secondary">
+                    {filters.category === "all"
+                      ? "All categories selected."
+                      : `${getCategoryLabel(filters.category)} selected. ${categoryDescriptions[filters.category]}`}
+                  </p>
+                </div>
                 <p className="text-sm text-text-secondary">
-                  Showing <span className="font-semibold text-dark">{filteredProducts.length}</span>{" "}
-                  products
-                </p>
-                <p className="text-sm text-text-secondary">
-                  {isPending ? "Updating filters..." : "Pick a product to view details"}
+                  {isPending ? "Updating filters..." : "Next step: open any product to choose size and color."}
                 </p>
               </div>
 
+              {(filters.category !== "all" || filters.size !== "all") && (
+                <div className="flex flex-wrap gap-2">
+                  {filters.category !== "all" ? (
+                    <button
+                      type="button"
+                      onClick={() => updateFilters({ ...filters, category: "all" })}
+                      className="rounded-full border border-line bg-white px-4 py-2 text-sm font-semibold text-dark transition hover:-translate-y-0.5 hover:border-dark"
+                    >
+                      Category: {getCategoryLabel(filters.category)} x
+                    </button>
+                  ) : null}
+                  {filters.size !== "all" ? (
+                    <button
+                      type="button"
+                      onClick={() => updateFilters({ ...filters, size: "all" })}
+                      className="rounded-full border border-line bg-white px-4 py-2 text-sm font-semibold text-dark transition hover:-translate-y-0.5 hover:border-dark"
+                    >
+                      Size: {filters.size} x
+                    </button>
+                  ) : null}
+                </div>
+              )}
+
               {filteredProducts.length ? (
-                <div className="grid min-w-0 gap-5 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+                <div className="grid min-w-0 grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
                   {filteredProducts.map((product, index) => (
                     <FadeIn key={product.id} delay={0.02 * index}>
                       <ProductCard product={product} />
@@ -177,7 +238,7 @@ export function ShopPageContent({ initialFilters }: ShopPageContentProps) {
                 <div className="surface-card rounded-[32px] px-6 py-16 text-center sm:px-10">
                   <h2 className="text-4xl text-dark sm:text-5xl">No products match those filters.</h2>
                   <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-text-secondary sm:text-lg">
-                    Try broadening the category or size filter to see the full collection again.
+                    Try broadening the category or size filter to get back to an available product.
                   </p>
                   <button
                     type="button"

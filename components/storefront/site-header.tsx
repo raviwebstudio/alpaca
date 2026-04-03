@@ -19,7 +19,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-line/60 bg-background/80 backdrop-blur-xl">
       <div className="shell flex h-20 items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-3">
+        <Link href="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-3">
           {/* <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-line bg-white text-sm font-bold text-dark shadow-soft">
             A
           </span>
@@ -59,6 +59,7 @@ export function SiteHeader() {
         <div className="flex items-center gap-2">
           <Link
             href="/cart"
+            onClick={() => setMenuOpen(false)}
             className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-4 py-2 text-sm font-semibold text-dark transition-transform duration-300 hover:-translate-y-0.5"
           >
             <ShoppingBag className="h-4 w-4" />

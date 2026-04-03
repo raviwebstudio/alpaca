@@ -6,7 +6,8 @@ import { BlogCard } from "@/components/storefront/blog-card";
 import { FadeIn } from "@/components/storefront/fade-in";
 import { ProductCarousel } from "@/components/storefront/product-carousel";
 import { SectionHeading } from "@/components/storefront/section-heading";
-import { blogPosts, collections, metrics, products, reasons } from "@/lib/storefront";
+import { getBestSellerProducts, getNewDropProducts } from "@/data/products";
+import { blogPosts, collections, metrics, reasons } from "@/lib/storefront";
 
 export const metadata: Metadata = {
   title: "MADE FOR THE MOVE",
@@ -14,8 +15,8 @@ export const metadata: Metadata = {
     "Discover ALPACA's premium essentials, oversized t-shirts, minimal basics, and new drops in a refined fashion storefront.",
 };
 
-const bestSellers = products.filter((product) => product.bestSeller).slice(0, 6);
-const newDrops = products.filter((product) => product.newDrop).slice(0, 6);
+const bestSellers = getBestSellerProducts(6);
+const newDrops = getNewDropProducts(6);
 
 const whyAlpaca = [
   { title: "Soft dispatch", copy: "Fast prepaid fulfillment with careful finishing.", icon: Truck },
@@ -70,22 +71,23 @@ export default function HomePage() {
         </div>
 
         <div className="grid gap-5 md:grid-cols-[1fr_220px] motion-safe:animate-fade-up">
-          <div className="surface-card relative overflow-hidden rounded-[36px] p-4 shadow-premium">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[28px]">
-              <Image
-                src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1600&q=80"
-                alt="ALPACA hero editorial frame"
-                fill
-                priority
-                sizes="(min-width: 1024px) 42vw, 100vw"
-                className="object-cover transition duration-700 hover:scale-[1.04]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-dark/45 via-dark/5 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                <p className="text-xs uppercase tracking-[0.28em] text-white/80">Premium everyday</p>
-                <p className="mt-3 max-w-sm text-2xl sm:text-3xl">
-                  Quiet layers built to carry long days well.
+          <div className="surface-card overflow-hidden rounded-[36px] shadow-premium sm:h-[520px] relative h-[500px] shadow-premium">
+            <Image
+              src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1600&q=80"
+              alt="ALPACA hero editorial frame"
+              fill
+              priority
+              sizes="(min-width: 1024px) 42vw, 100vw"
+              className="h-full w-full object-cover transition duration-300 hover:scale-[1.02]"
+            />
+            <div className="absolute inset-0 flex items-end bg-black/20 p-8">
+              <div className="max-w-sm text-white">
+                <p className="text-sm font-semibold uppercase tracking-[0.28em] text-white/85">
+                  Premium everyday
                 </p>
+                <h2 className="mt-2 text-3xl text-white sm:text-[2.1rem]">
+                  Quiet layers built to carry long days well.
+                </h2>
               </div>
             </div>
           </div>
@@ -93,7 +95,7 @@ export default function HomePage() {
           <div className="grid gap-5">
             <div className="surface-card rounded-[28px] bg-[#F8F5F2] p-5">
               <p className="eyebrow">Fabric first</p>
-              <p className="mt-4 text-2xl text-dark">Heavyweight tees. Refined basics.</p>
+              <p className="mt-4 text-xl text-dark">Heavyweight tees. Refined basics.</p>
               <p className="mt-3 text-sm leading-6 text-text-secondary">
                 Built around repeat wear, structure, and understated presence.
               </p>
@@ -115,14 +117,16 @@ export default function HomePage() {
       </FadeIn>
 
       <FadeIn delay={0.05}>
-      <section className="shell section-space pt-0 motion-safe:animate-fade-up">
-        <SectionHeading
-          eyebrow="Best Sellers"
-          title="The pieces customers keep returning to."
-          description="A horizontal edit with premium weight, softened structure, and clean utility across the week."
-        />
-        <div className="mt-10">
-          <ProductCarousel products={bestSellers} />
+      <section className="relative z-[1] w-full overflow-hidden py-16 bg-[#FAF8F5]">
+        <div className="shell motion-safe:animate-fade-up">
+          <SectionHeading
+            eyebrow="Best Sellers"
+            title="The pieces customers keep returning to."
+            description="A horizontal edit with premium weight, softened structure, and clean utility across the week."
+          />
+          <div className="mt-10 relative w-full overflow-hidden">
+            <ProductCarousel products={bestSellers} />
+          </div>
         </div>
       </section>
       </FadeIn>
@@ -222,9 +226,10 @@ export default function HomePage() {
       </FadeIn>
 
       <FadeIn delay={0.12}>
-      <section className="shell section-space pt-0 motion-safe:animate-fade-up">
-        <div className="surface-card rounded-[36px] p-8 sm:p-12 lg:p-14">
-          <div>
+      <section className="relative z-[1] w-full overflow-hidden py-16 bg-[#FAF8F5]">
+        <div className="shell motion-safe:animate-fade-up">
+          <div className="surface-card rounded-[36px] p-8 sm:p-12 lg:p-14">
+            <div>
               <p className="eyebrow">Movement notes</p>
               <h2 className="mt-4 text-balance text-5xl leading-[0.96] text-dark sm:text-6xl">
                 A quieter wardrobe with enough range for real life.
@@ -242,9 +247,10 @@ export default function HomePage() {
                 ))}
               </div>
             </div>
-          <div className="grid gap-10 lg:grid-cols-[1fr_0.95fr] lg:items-center">
-            <div>
-              <ProductCarousel products={newDrops} />
+            <div className="grid gap-10 mt-5 lg:items-center">
+              <div className="relative w-full overflow-hidden">
+                <ProductCarousel products={newDrops} />
+              </div>
             </div>
           </div>
         </div>

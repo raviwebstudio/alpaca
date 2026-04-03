@@ -33,6 +33,9 @@ export function OrderSummaryCard({
           <div key={item.id} className="flex items-start justify-between gap-4 text-sm">
             <div>
               <p className="font-semibold text-dark">{item.title}</p>
+              <p className="mt-1 text-xs uppercase tracking-[0.18em] text-text-secondary">
+                {item.sellerName}
+              </p>
               <p className="mt-1 text-text-secondary">
                 {item.color} / {item.size} / Qty {item.quantity}
               </p>

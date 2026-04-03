@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { ProductDetails } from "@/components/storefront/product-details";
-import { products } from "@/data/products";
+import { ProductDetails, ProductFallback } from "@/components/ProductDetails";
+import { getProductBySlug, products } from "@/data/products";
 
 type ProductPageProps = {
   params: Promise<{
@@ -17,31 +16,33 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const product = products.find((item) => item.slug === slug);
+  const product = getProductBySlug(slug);
 
   if (!product) {
     return {
-      title: "Product not found",
+      title: "Product unavailable",
+      description:
+        "That ALPACA product is not available right now. Browse the shop to continue with an active product.",
     };
   }
 
   return {
     title: product.title,
-    description: product.description,
+    description: product.summary,
     openGraph: {
       title: `${product.title} | ALPACA`,
-      description: product.description,
-      images: [product.images[0]],
+      description: product.summary,
+      images: [product.images[0].src],
     },
   };
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
-  const product = products.find((p) => p.slug === slug);
+  const product = getProductBySlug(slug);
 
   if (!product) {
-    return notFound();
+    return <ProductFallback slug={slug} />;
   }
 
   return <ProductDetails product={product} />;

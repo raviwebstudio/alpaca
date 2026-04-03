@@ -86,7 +86,8 @@ export function AddressPage() {
             <p className="eyebrow">Delivery Address</p>
             <h1 className="text-balance text-4xl text-dark sm:text-5xl">Where should we send it?</h1>
             <p className="text-base leading-7 text-text-secondary">
-              Keep it minimal, keep it precise. We will use this for dispatch and delivery updates.
+              Enter the shipping details for this order. After this step, you will choose your payment
+              method.
             </p>
           </div>
 
@@ -168,7 +169,7 @@ export function AddressPage() {
               type="submit"
               className="inline-flex items-center justify-center rounded-xl border border-dark bg-dark px-6 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:opacity-95"
             >
-              Continue to payment
+              Save address and continue
             </button>
             <Link
               href="/cart"
@@ -177,6 +178,9 @@ export function AddressPage() {
               Back to cart
             </Link>
           </div>
+          <p className="mt-4 text-sm text-text-secondary">
+            Next step: choose UPI, card, or net banking on the payment screen.
+          </p>
           </form>
         </FadeIn>
 

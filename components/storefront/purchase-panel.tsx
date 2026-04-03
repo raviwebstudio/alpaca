@@ -3,14 +3,16 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight, ShoppingBag } from "lucide-react";
-import { Product, formatPrice, getCategoryLabel, getColorLabel } from "@/lib/storefront";
+import { getCategoryLabel, type Product } from "@/data/products";
 import { useCart } from "@/components/storefront/cart-provider";
+import { formatPrice } from "@/lib/storefront";
 
 export function PurchasePanel({ product }: { product: Product }) {
   const router = useRouter();
   const { addToCart } = useCart();
   const [selectedSize, setSelectedSize] = useState(product.sizes[0] ?? "");
-  const [selectedColor, setSelectedColor] = useState(product.colors[0] ?? "");
+  const [selectedColor, setSelectedColor] = useState(product.colors[0]?.hex ?? "");
+  const [quantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
 
   useEffect(() => {
@@ -25,21 +27,40 @@ export function PurchasePanel({ product }: { product: Product }) {
     return () => window.clearTimeout(timeout);
   }, [addedToCart]);
 
-  const handleAddToCart = () => {
+  const handleAddCurrentItem = () => {
+    const color = product.colors.find((entry) => entry.hex === selectedColor) ?? product.colors[0];
+
+    if (!color || !selectedSize) {
+      return false;
+    }
+
     addToCart({
+      productId: product.id,
+      sellerId: product.seller.id,
+      sellerName: product.seller.name,
       slug: product.slug,
       title: product.title,
       price: product.price,
-      image: product.images[0],
+      image: product.images[0].src,
       size: selectedSize,
-      color: getColorLabel(selectedColor),
-      colorHex: selectedColor,
+      color: color.name,
+      colorHex: color.hex,
+      quantity,
     });
     setAddedToCart(true);
+
+    return true;
+  };
+
+  const handleAddToCart = () => {
+    handleAddCurrentItem();
   };
 
   const handleBuyNow = () => {
-    handleAddToCart();
+    if (!handleAddCurrentItem()) {
+      return;
+    }
+
     router.push("/cart");
   };
 
@@ -55,6 +76,9 @@ export function PurchasePanel({ product }: { product: Product }) {
           </p>
         </div>
         <p className="text-3xl font-semibold text-dark">{formatPrice(product.price)}</p>
+        <p className="text-sm text-text-secondary">
+          Sold by {product.seller.name} / {product.shippingLeadTime}
+        </p>
       </div>
 
       <div className="space-y-6">
@@ -83,20 +107,20 @@ export function PurchasePanel({ product }: { product: Product }) {
           <div className="flex flex-wrap gap-3">
             {product.colors.map((color) => (
               <button
-                key={color}
+                key={color.hex}
                 type="button"
-                onClick={() => setSelectedColor(color)}
+                onClick={() => setSelectedColor(color.hex)}
                 className={`flex items-center gap-3 rounded-xl border px-4 py-2.5 text-sm font-semibold transition ${
-                  selectedColor === color
+                  selectedColor === color.hex
                     ? "border-dark bg-white text-dark"
                     : "border-line bg-white/70 text-text-secondary hover:-translate-y-0.5 hover:border-dark"
                 }`}
               >
                 <span
                   className="h-4 w-4 rounded-full border border-black/10"
-                  style={{ backgroundColor: color }}
+                  style={{ backgroundColor: color.hex }}
                 />
-                {getColorLabel(color)}
+                {color.name}
               </button>
             ))}
           </div>
@@ -106,7 +130,10 @@ export function PurchasePanel({ product }: { product: Product }) {
       <div className="grid gap-3">
         <button
           type="button"
-          onClick={handleAddToCart}
+          onClick={(event) => {
+            event.stopPropagation();
+            handleAddToCart();
+          }}
           className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-dark bg-dark px-6 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:opacity-95"
         >
           <ShoppingBag className="h-4 w-4" />
@@ -114,13 +141,18 @@ export function PurchasePanel({ product }: { product: Product }) {
         </button>
         <button
           type="button"
-          onClick={handleBuyNow}
+          onClick={(event) => {
+            event.stopPropagation();
+            handleBuyNow();
+          }}
           className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-line bg-white px-6 py-3.5 text-sm font-semibold text-dark transition hover:-translate-y-0.5 hover:border-dark"
         >
           Buy Now
           <ArrowRight className="h-4 w-4" />
         </button>
-        <p className="text-sm text-text-secondary">Ships in 2-4 days across India</p>
+        <p className="text-sm text-text-secondary">
+          Next step: review your cart, then enter address and payment details.
+        </p>
       </div>
 
       <div className="grid gap-4 border-t border-line pt-6 text-sm text-text-secondary sm:grid-cols-2">
@@ -132,6 +164,17 @@ export function PurchasePanel({ product }: { product: Product }) {
           <p className="font-semibold uppercase tracking-[0.24em] text-dark">Material</p>
           <p className="mt-2 leading-6">{product.material}</p>
         </div>
+      </div>
+
+      <div className="rounded-[24px] border border-line bg-background/80 p-5">
+        <p className="text-sm font-semibold uppercase tracking-[0.22em] text-text-secondary">
+          How checkout works
+        </p>
+        <ol className="mt-4 space-y-2 text-sm leading-6 text-text-secondary">
+          <li>1. Choose your size and color.</li>
+          <li>2. Add the product to cart or continue straight to cart.</li>
+          <li>3. Confirm address and payment on the next screens.</li>
+        </ol>
       </div>
     </div>
   );

@@ -105,7 +105,8 @@ export function PaymentPage() {
             <p className="eyebrow">Payment</p>
             <h1 className="text-balance text-4xl text-dark sm:text-5xl">Choose a prepaid method.</h1>
             <p className="text-base leading-7 text-text-secondary">
-              ALPACA accepts UPI, card, and net banking only. Cash on delivery is not available.
+              Select how you want to pay for this order. Once you confirm, we will place the order and
+              show your confirmation screen.
             </p>
           </div>
 
@@ -160,7 +161,7 @@ export function PaymentPage() {
               type="submit"
               className="inline-flex items-center justify-center rounded-xl border border-dark bg-dark px-6 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:opacity-95"
             >
-              Pay Now
+              Place order and pay
             </button>
             <Link
               href="/checkout/address"
@@ -169,6 +170,9 @@ export function PaymentPage() {
               Edit address
             </Link>
           </div>
+          <p className="mt-4 text-sm text-text-secondary">
+            Cash on delivery is not available for this flow.
+          </p>
           </form>
         </FadeIn>
 

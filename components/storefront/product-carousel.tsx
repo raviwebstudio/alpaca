@@ -1,16 +1,9 @@
 "use client";
 
-import {
-  useEffect,
-  useRef,
-  useState,
-  type MouseEvent as ReactMouseEvent,
-  type PointerEvent as ReactPointerEvent,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import clsx from "clsx";
 import { Product } from "@/data/products";
-import { ProductCard } from "@/components/storefront/product-card";
+import { ProductCard } from "@/components/ProductCard";
 
 type ProductCarouselProps = {
   products: Product[];
@@ -18,13 +11,6 @@ type ProductCarouselProps = {
 
 export function ProductCarousel({ products }: ProductCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const dragState = useRef({
-    active: false,
-    moved: false,
-    startX: 0,
-    scrollLeft: 0,
-  });
-  const [dragging, setDragging] = useState(false);
   const [scrollState, setScrollState] = useState({
     canScrollLeft: false,
     canScrollRight: products.length > 0,
@@ -63,107 +49,37 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
     });
   };
 
-  const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (event.pointerType === "mouse" && event.button !== 0) {
-      return;
-    }
-
-    dragState.current = {
-      active: true,
-      moved: false,
-      startX: event.clientX,
-      scrollLeft: event.currentTarget.scrollLeft,
-    };
-
-    setDragging(true);
-    event.currentTarget.setPointerCapture(event.pointerId);
-  };
-
-  const handlePointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (!dragState.current.active) {
-      return;
-    }
-
-    const distance = event.clientX - dragState.current.startX;
-
-    if (Math.abs(distance) > 6) {
-      dragState.current.moved = true;
-    }
-
-    event.currentTarget.scrollLeft = dragState.current.scrollLeft - distance;
-  };
-
-  const stopDragging = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (!dragState.current.active) {
-      return;
-    }
-
-    dragState.current.active = false;
-    setDragging(false);
-
-    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
-      event.currentTarget.releasePointerCapture(event.pointerId);
-    }
-  };
-
-  const handleClickCapture = (event: ReactMouseEvent<HTMLDivElement>) => {
-    if (!dragState.current.moved) {
-      return;
-    }
-
-    event.preventDefault();
-    event.stopPropagation();
-    dragState.current.moved = false;
-  };
-
   return (
-    <div className="relative max-w-full overflow-hidden">
-      <div className="mb-6 hidden justify-end gap-2 md:flex">
-        <button
-          type="button"
-          aria-label="Scroll products left"
-          onClick={() => scrollByAmount(-1)}
-          disabled={!scrollState.canScrollLeft}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-dark transition hover:-translate-y-0.5 hover:border-dark disabled:cursor-not-allowed disabled:opacity-40"
-        >
-          <ChevronLeft className="h-4 w-4" />
-        </button>
-        <button
-          type="button"
-          aria-label="Scroll products right"
-          onClick={() => scrollByAmount(1)}
-          disabled={!scrollState.canScrollRight}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-dark transition hover:-translate-y-0.5 hover:border-dark disabled:cursor-not-allowed disabled:opacity-40"
-        >
-          <ChevronRight className="h-4 w-4" />
-        </button>
-      </div>
-
+    <div className="relative w-full overflow-hidden">
       <div
         ref={scrollRef}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={stopDragging}
-        onPointerCancel={stopDragging}
-        onPointerLeave={stopDragging}
-        onClickCapture={handleClickCapture}
-        className={clsx(
-          "no-scrollbar max-w-full overflow-x-auto cursor-grab scroll-smooth rounded-[28px] [scrollbar-width:none] active:cursor-grabbing",
-          "touch-pan-y select-none",
-          dragging && "cursor-grabbing",
-        )}
+        className="flex gap-6 overflow-x-auto scroll-smooth pb-4 no-scrollbar [scrollbar-width:none]"
       >
-        <div className="flex min-w-max gap-6 px-1 py-1 snap-x snap-mandatory">
-          {products.map((product) => (
-            <div
-              key={product.slug}
-              className="w-[300px] max-w-[320px] flex-[0_0_300px] snap-start"
-            >
-              <ProductCard product={product} className="h-full" />
-            </div>
-          ))}
-        </div>
+        {products.map((product) => (
+          <div key={product.slug} className="flex-shrink-0 w-[280px] md:w-[300px]">
+            <ProductCard product={product} className="h-full" />
+          </div>
+        ))}
       </div>
+
+      <button
+        type="button"
+        aria-label="Scroll products left"
+        onClick={() => scrollByAmount(-1)}
+        disabled={!scrollState.canScrollLeft}
+        className="absolute left-0 top-1/2 z-10 hidden -translate-y-1/2 rounded-full bg-white p-2 shadow md:inline-flex items-center justify-center disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        <ChevronLeft className="h-4 w-4" />
+      </button>
+      <button
+        type="button"
+        aria-label="Scroll products right"
+        onClick={() => scrollByAmount(1)}
+        disabled={!scrollState.canScrollRight}
+        className="absolute right-0 top-1/2 z-10 hidden -translate-y-1/2 rounded-full bg-white p-2 shadow md:inline-flex items-center justify-center disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        <ChevronRight className="h-4 w-4" />
+      </button>
     </div>
   );
 }

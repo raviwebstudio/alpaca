@@ -1,13 +1,32 @@
 import {
   categoryLabels,
+  getBestSellerProducts,
+  getCategoryLabel,
   getColorLabel,
+  getFallbackProducts,
+  getFeaturedProducts,
+  getNewDropProducts,
+  getProductBySlug,
+  getRelatedProducts,
   productCategories,
   products,
   type Product,
   type ProductCategory,
 } from "@/data/products";
 
-export { categoryLabels, getColorLabel, productCategories, products };
+export {
+  categoryLabels,
+  getBestSellerProducts,
+  getCategoryLabel,
+  getColorLabel,
+  getFallbackProducts,
+  getFeaturedProducts,
+  getNewDropProducts,
+  getProductBySlug,
+  getRelatedProducts,
+  productCategories,
+  products,
+};
 export type { Product, ProductCategory };
 
 export type BlogPost = {
@@ -336,14 +355,6 @@ export const formatPrice = (amount: number) =>
   }).format(amount);
 
 export const categories = productCategories;
-
-export const getCategoryLabel = (category: ProductCategory) => categoryLabels[category];
-
-export const getProductBySlug = (slug: string) =>
-  products.find((product) => product.slug === slug);
-
-export const getRelatedProducts = (slug: string, category: ProductCategory) =>
-  products.filter((product) => product.slug !== slug && product.category === category).slice(0, 4);
 
 export const getBlogPostBySlug = (slug: string) =>
   blogPosts.find((post) => post.slug === slug);

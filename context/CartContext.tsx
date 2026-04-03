@@ -5,11 +5,15 @@ import {
   useContext,
   useEffect,
   useState,
+  useSyncExternalStore,
   type ReactNode,
 } from "react";
 
 export type CartItem = {
   id: string;
+  productId: number;
+  sellerId: string;
+  sellerName: string;
   slug: string;
   title: string;
   price: number;
@@ -47,7 +51,7 @@ type CheckoutOverrides = {
   paymentMethod?: PaymentMethod;
 };
 
-type CartProductInput = Omit<CartItem, "id" | "quantity">;
+type CartProductInput = Omit<CartItem, "id">;
 
 type CartContextValue = {
   hydrated: boolean;
@@ -61,8 +65,8 @@ type CartContextValue = {
   checkoutAddress: CheckoutAddress;
   paymentMethod: PaymentMethod;
   lastOrder: OrderRecord | null;
-  addItem: (item: CartProductInput, quantity?: number) => void;
-  addToCart: (item: CartProductInput, quantity?: number) => void;
+  addItem: (item: CartProductInput) => void;
+  addToCart: (item: CartProductInput) => void;
   updateQuantity: (id: string, quantity: number) => void;
   removeItem: (id: string) => void;
   removeFromCart: (id: string) => void;
@@ -74,7 +78,7 @@ type CartContextValue = {
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
-const STORAGE_KEY = "alpaca-cart";
+const STORAGE_KEY = "alpaca_cart";
 
 const DEFAULT_ADDRESS: CheckoutAddress = {
   name: "",
@@ -88,73 +92,57 @@ const DEFAULT_ADDRESS: CheckoutAddress = {
 const getShipping = (subtotal: number, itemCount: number) =>
   subtotal >= 4999 ? 0 : itemCount ? 249 : 0;
 
-type StoredState = {
-  items?: CartItem[];
-  checkoutAddress?: CheckoutAddress;
-  paymentMethod?: PaymentMethod;
-  lastOrder?: OrderRecord | null;
-};
-
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [items, setItems] = useState<CartItem[]>(() => {
+    if (typeof window === "undefined") {
+      return [];
+    }
+
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      return stored ? (JSON.parse(stored) as CartItem[]) : [];
+    } catch {
+      return [];
+    }
+  });
   const [checkoutAddress, setCheckoutAddress] = useState<CheckoutAddress>(DEFAULT_ADDRESS);
   const [paymentMethod, setPaymentMethodState] = useState<PaymentMethod>("upi");
   const [lastOrder, setLastOrder] = useState<OrderRecord | null>(null);
-  const [hydrated, setHydrated] = useState(false);
+  const hydrated = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
 
   useEffect(() => {
-    const stored = window.localStorage.getItem(STORAGE_KEY);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  }, [items]);
 
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored) as StoredState | CartItem[];
+  const addItem = (newItem: CartProductInput) => {
+    setItems((prev) => {
+      const existingIndex = prev.findIndex(
+        (item) =>
+          item.productId === newItem.productId &&
+          item.size === newItem.size &&
+          item.color === newItem.color,
+      );
 
-        if (Array.isArray(parsed)) {
-          // Backward compatibility for the previous cart-only storage shape.
-          // eslint-disable-next-line react-hooks/set-state-in-effect
-          setItems(parsed);
-        } else {
-          // Hydrate persisted checkout state once on the client after mount.
-          setItems(parsed.items ?? []);
-          setCheckoutAddress(parsed.checkoutAddress ?? DEFAULT_ADDRESS);
-          setPaymentMethodState(parsed.paymentMethod ?? "upi");
-          setLastOrder(parsed.lastOrder ?? null);
-        }
-      } catch {
-        window.localStorage.removeItem(STORAGE_KEY);
-      }
-    }
-
-    setHydrated(true);
-  }, []);
-
-  useEffect(() => {
-    if (!hydrated) {
-      return;
-    }
-
-    const state: StoredState = {
-      items,
-      checkoutAddress,
-      paymentMethod,
-      lastOrder,
-    };
-
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  }, [checkoutAddress, hydrated, items, lastOrder, paymentMethod]);
-
-  const addItem = (item: CartProductInput, quantity = 1) => {
-    setItems((current) => {
-      const id = `${item.slug}-${item.size}-${item.color}`;
-      const existing = current.find((entry) => entry.id === id);
-
-      if (existing) {
-        return current.map((entry) =>
-          entry.id === id ? { ...entry, quantity: entry.quantity + quantity } : entry,
-        );
+      if (existingIndex > -1) {
+        const updated = [...prev];
+        updated[existingIndex] = {
+          ...updated[existingIndex],
+          quantity: updated[existingIndex].quantity + newItem.quantity,
+        };
+        return updated;
       }
 
-      return [...current, { ...item, id, quantity }];
+      return [
+        ...prev,
+        {
+          ...newItem,
+          id: `${newItem.sellerId}-${newItem.productId}-${newItem.size}-${newItem.colorHex}`,
+        },
+      ];
     });
   };
 

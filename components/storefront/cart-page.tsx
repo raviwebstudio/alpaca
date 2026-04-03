@@ -10,7 +10,7 @@ import { useCart } from "@/components/storefront/cart-provider";
 import { formatPrice } from "@/lib/storefront";
 
 export function CartPage() {
-  const { items, subtotal, shipping, total, removeItem, updateQuantity } = useCart();
+  const { items, subtotal, shipping, total, removeFromCart, updateQuantity } = useCart();
 
   if (!items.length) {
     return (
@@ -45,7 +45,7 @@ export function CartPage() {
             <p className="eyebrow">Shopping bag</p>
             <h1 className="text-balance text-4xl text-dark sm:text-5xl">Your selected wardrobe.</h1>
             <p className="max-w-2xl text-base leading-7 text-text-secondary">
-              Review the pieces, adjust quantity, and continue through secure prepaid checkout.
+              Review the pieces, adjust quantity, then continue to your address and payment steps.
             </p>
           </div>
 
@@ -73,6 +73,9 @@ export function CartPage() {
                       >
                         {item.title}
                       </Link>
+                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-text-secondary">
+                        Sold by {item.sellerName}
+                      </p>
                       <p className="text-sm text-text-secondary">
                         Size {item.size} / {item.color}
                       </p>
@@ -113,7 +116,7 @@ export function CartPage() {
 
                   <button
                     type="button"
-                    onClick={() => removeItem(item.id)}
+                    onClick={() => removeFromCart(item.id)}
                     className="inline-flex items-center gap-2 text-sm font-semibold text-text-secondary transition hover:text-dark"
                   >
                     <Trash2 className="h-4 w-4" />
@@ -137,7 +140,7 @@ export function CartPage() {
                 href="/checkout/address"
                 className="inline-flex w-full items-center justify-center rounded-xl border border-dark bg-dark px-6 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:opacity-95"
               >
-                Checkout
+                Continue to address
               </Link>
             }
             className="h-fit md:sticky md:top-28"
