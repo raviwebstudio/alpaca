@@ -122,7 +122,7 @@ export const products: Product[] = [
     sku: "ALP-OVR-001",
     title: "Plain White T-shirt for Men",
     slug: "plain-white-t-shirt-for-men",
-    price: 2490,
+    price: 490,
     category: "oversized",
     sizes: ["S", "M", "L", "XL"],
     colors: [
@@ -158,7 +158,7 @@ export const products: Product[] = [
     sku: "ALP-BSC-002",
     title: "Men's Black T-shirt",
     slug: "mens-black-t-shirt",
-    price: 1490,
+    price: 490,
     category: "basics",
     sizes: ["S", "M", "L"],
     colors: [createColor("Black", "#000000"), createColor("White", "#FFFFFF")],
