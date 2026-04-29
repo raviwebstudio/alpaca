@@ -20,7 +20,7 @@ export function FadeIn({
 }: FadeInProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y }}
+      initial={false}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once, amount: 0.2 }}
       transition={{

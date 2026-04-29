@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 import { ArrowRight, PackageCheck, ShieldCheck, Sparkles, Truck } from "lucide-react";
 import { BlogCard } from "@/components/storefront/blog-card";
 import { FadeIn } from "@/components/storefront/fade-in";
@@ -28,6 +29,7 @@ const whyAlpaca = [
 export default function HomePage() {
   return (
     <>
+      <Suspense fallback={<div className="h-96 bg-[#FAF8F5]" />}>
       <FadeIn>
       <section className="shell section-space grid gap-8 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
         <div className="space-y-8 motion-safe:animate-fade-up">
@@ -115,7 +117,9 @@ export default function HomePage() {
         </div>
       </section>
       </FadeIn>
+      </Suspense>
 
+      <Suspense fallback={<div className="h-96 bg-[#FAF8F5]" />}>
       <FadeIn delay={0.05}>
       <section className="relative z-[1] w-full overflow-hidden py-16 bg-[#FAF8F5]">
         <div className="shell motion-safe:animate-fade-up">
@@ -130,6 +134,7 @@ export default function HomePage() {
         </div>
       </section>
       </FadeIn>
+      </Suspense>
 
       {/* <section className="shell section-space pt-0 motion-safe:animate-fade-up">
         <div className="surface-card rounded-[36px] p-6 sm:p-8 lg:p-10">
@@ -165,6 +170,7 @@ export default function HomePage() {
         </div>
       </section> */}
 
+      <Suspense fallback={<div className="h-96 bg-[#FAF8F5]" />}>
       <FadeIn delay={0.08}>
       <section className="shell section-space pt-0 motion-safe:animate-fade-up">
         <div className="grid gap-5 lg:grid-cols-3">
@@ -203,7 +209,9 @@ export default function HomePage() {
         </div>
       </section>
       </FadeIn>
+      </Suspense>
 
+      <Suspense fallback={<div className="h-96 bg-[#FAF8F5]" />}>
       <FadeIn delay={0.1}>
       <section className="shell section-space pt-0 motion-safe:animate-fade-up">
         <SectionHeading
@@ -224,7 +232,9 @@ export default function HomePage() {
         </div>
       </section>
       </FadeIn>
+      </Suspense>
 
+      <Suspense fallback={<div className="h-96 bg-[#FAF8F5]" />}>
       <FadeIn delay={0.12}>
       <section className="relative z-[1] w-full overflow-hidden py-16 bg-[#FAF8F5]">
         <div className="shell motion-safe:animate-fade-up">
@@ -256,7 +266,9 @@ export default function HomePage() {
         </div>
       </section>
       </FadeIn>
+      </Suspense>
 
+      <Suspense fallback={<div className="h-96 bg-[#FAF8F5]" />}>
       <FadeIn delay={0.14}>
       <section className="shell section-space pt-0 motion-safe:animate-fade-up">
         <div className="flex items-end justify-between gap-4">
@@ -276,6 +288,7 @@ export default function HomePage() {
         </div>
       </section>
       </FadeIn>
+      </Suspense>
     </>
   );
 }
