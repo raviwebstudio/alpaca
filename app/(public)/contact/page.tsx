@@ -21,8 +21,11 @@ export default function ContactPage() {
         <div className="space-y-5">
           <div className="surface-card rounded-[28px] p-6">
             <p className="eyebrow">Email</p>
-            <a href="mailto:hello@alpaca-fashion.com" className="mt-4 block text-3xl text-dark">
-              hello@alpaca-fashion.com
+            <a href="mailto:contact@alpacaa.in" className="mt-4 block text-xl text-dark">
+              contact@alpacaa.in
+            </a>
+            <a href="mailto:support@alpacaa.in" className="mt-4 block text-xl text-dark">
+              support@alpacaa.in
             </a>
           </div>
           <div className="surface-card rounded-[28px] p-6">
@@ -34,13 +37,13 @@ export default function ContactPage() {
             </p>
           </div>
           <div className="surface-card rounded-[28px] p-6">
-            <p className="eyebrow">Studio</p>
+            <p className="eyebrow">Address</p>
             <p className="mt-4 text-base leading-7 text-text-secondary">
               ALPACA House
               <br />
-              24 Movement Lane
+              Meerut, Uttar Pradesh,
               <br />
-              Bengaluru, India
+              India - 250004
             </p>
           </div>
         </div>

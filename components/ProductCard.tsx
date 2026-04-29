@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { getCategoryLabel, type Product } from "@/data/products";
 import { formatPrice } from "@/lib/storefront";
 
-export function ProductCard({
+export default function ProductCard({
   product,
   className,
 }: {
@@ -17,6 +17,7 @@ export function ProductCard({
   const slug = product.slug?.trim();
   const href = slug ? `/product/${slug}` : "/shop";
   const image = product.images[0];
+  const label = getCategoryLabel(product.category);
 
   return (
     <motion.div
@@ -30,8 +31,8 @@ export function ProductCard({
       <Link href={href} className="block">
         <div className="relative w-full aspect-[5/4] overflow-hidden">
           <Image
-            src={image?.src ?? "/placeholder.jpg"}
-            alt={image?.alt ?? product.title}
+            src={image ?? "/inventory/men/tshirts/plain-white-t-shirt01.jpg"}
+            alt={product.title}
             fill
             sizes="(min-width: 1280px) 24vw, (min-width: 768px) 33vw, 100vw"
             className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -52,15 +53,19 @@ export function ProductCard({
 
       <div className="p-4 flex flex-1 flex-col">
         <p className="text-xs uppercase tracking-widest text-stone-400 mb-1">
-          {getCategoryLabel(product.category)}
+          {label}
         </p>
         <Link href={href}>
           <h3 className="text-xl text-stone-900 transition-colors hover:text-[#C8956C]">
             {product.title}
           </h3>
         </Link>
-        <p className="text-sm text-stone-500 mt-1 mb-3">{product.seller.name}</p>
-        <p className="text-sm text-stone-400 truncate w-full mb-4">{product.summary}</p>
+        <p className="text-sm text-stone-500 mt-1 mb-3">
+          {product.type === "decor" ? product.material : "ALPACA Studio"}
+        </p>
+        <p className="text-sm text-stone-400 truncate w-full mb-4">
+          {product.summary ?? product.description}
+        </p>
         <div className="mt-auto">
           <p className="text-lg font-semibold text-stone-900 mb-1">
             {formatPrice(product.price)}
@@ -75,3 +80,5 @@ export function ProductCard({
     </motion.div>
   );
 }
+
+export { ProductCard };

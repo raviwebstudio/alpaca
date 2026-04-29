@@ -5,7 +5,6 @@ import {
   useContext,
   useEffect,
   useState,
-  useSyncExternalStore,
   type ReactNode,
 } from "react";
 
@@ -108,11 +107,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [checkoutAddress, setCheckoutAddress] = useState<CheckoutAddress>(DEFAULT_ADDRESS);
   const [paymentMethod, setPaymentMethodState] = useState<PaymentMethod>("upi");
   const [lastOrder, setLastOrder] = useState<OrderRecord | null>(null);
-  const hydrated = useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false,
-  );
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items));

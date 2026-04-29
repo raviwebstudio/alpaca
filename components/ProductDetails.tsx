@@ -2,7 +2,6 @@ import Link from "next/link";
 import { ArrowLeft, ShieldCheck, Store, Truck } from "lucide-react";
 import {
   getCategoryLabel,
-  getColorLabel,
   getFallbackProducts,
   getRelatedProducts,
   type Product,
@@ -13,25 +12,39 @@ import { ProductGallery } from "@/components/storefront/product-gallery";
 import { PurchasePanel } from "@/components/storefront/purchase-panel";
 import { formatPrice } from "@/lib/storefront";
 
+const PRODUCT_FAQS = [
+  {
+    question: "How does checkout work?",
+    answer:
+      "Add the product to cart, review your bag, enter delivery address, and continue to payment.",
+  },
+  {
+    question: "When will my order ship?",
+    answer:
+      "In-stock orders usually dispatch within 48 hours. You will see the next step clearly at each checkout stage.",
+  },
+];
+
 export function ProductDetails({ product }: { product: Product }) {
   const related = getRelatedProducts(product.slug, product.category, 4);
   const similarProducts = related.length
     ? related
-    : getFallbackProducts(5).filter((item) => item.slug !== product.slug).slice(0, 4);
+    : getFallbackProducts(5, product.type).filter((item) => item.slug !== product.slug).slice(0, 4);
+  const backHref = product.type === "decor" ? "/home-decor" : "/shop";
 
   return (
     <div className="shell section-space space-y-14">
       <FadeIn>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <Link
-            href="/shop"
+            href={backHref}
             className="inline-flex items-center gap-2 text-sm font-semibold text-text-secondary transition hover:text-dark"
           >
             <ArrowLeft className="h-4 w-4" />
-            Back to shop
+            Back to {product.type === "decor" ? "home decor" : "shop"}
           </Link>
           <p className="text-sm text-text-secondary">
-            {getCategoryLabel(product.category)} / Ships {product.shippingLeadTime.toLowerCase()}
+            {getCategoryLabel(product.category)} / Ships {(product.shippingLeadTime ?? "dispatches within 48 hours").toLowerCase()}
           </p>
         </div>
       </FadeIn>
@@ -58,7 +71,7 @@ export function ProductDetails({ product }: { product: Product }) {
               </p>
 
               <div className="mt-8 grid gap-4 sm:grid-cols-3">
-                {product.highlights.map((highlight) => (
+                {(product.highlights ?? []).map((highlight) => (
                   <div key={highlight} className="rounded-[24px] border border-line bg-background/80 p-4">
                     <p className="text-sm font-semibold text-dark">{highlight}</p>
                   </div>
@@ -69,7 +82,7 @@ export function ProductDetails({ product }: { product: Product }) {
             <div className="surface-card rounded-[32px] p-6 sm:p-8">
               <p className="eyebrow">FAQ</p>
               <div className="mt-5 divide-y divide-line">
-                {product.faq.map((faq) => (
+                {PRODUCT_FAQS.map((faq) => (
                   <details key={faq.question} className="group py-5">
                     <summary className="cursor-pointer list-none text-xl text-dark">
                       <span className="flex items-center justify-between gap-4">
@@ -97,41 +110,49 @@ export function ProductDetails({ product }: { product: Product }) {
                   <p className="mt-2 text-3xl text-dark">{formatPrice(product.price)}</p>
                 </div>
 
-                <div>
-                  <p className="text-sm font-semibold uppercase tracking-[0.2em] text-text-secondary">
-                    Available sizes
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-3">
-                    {product.sizes.map((size) => (
-                      <span
-                        key={size}
-                        className="rounded-xl border border-line bg-background px-4 py-2 text-sm font-semibold text-dark"
-                      >
-                        {size}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <p className="text-sm font-semibold uppercase tracking-[0.2em] text-text-secondary">
-                    Available colors
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-3">
-                    {product.colors.map((color) => (
-                      <div
-                        key={color.hex}
-                        className="flex items-center gap-3 rounded-xl border border-line bg-background px-4 py-2.5 text-sm font-semibold text-dark"
-                      >
-                        <span
-                          className="h-4 w-4 rounded-full border border-black/10"
-                          style={{ backgroundColor: color.hex }}
-                        />
-                        {getColorLabel(color.hex)}
+                {product.type === "fashion" ? (
+                  <>
+                    <div>
+                      <p className="text-sm font-semibold uppercase tracking-[0.2em] text-text-secondary">
+                        Available sizes
+                      </p>
+                      <div className="mt-3 flex flex-wrap gap-3">
+                        {(product.sizes ?? []).map((size) => (
+                          <span
+                            key={size}
+                            className="rounded-xl border border-line bg-background px-4 py-2 text-sm font-semibold text-dark"
+                          >
+                            {size}
+                          </span>
+                        ))}
                       </div>
-                    ))}
+                    </div>
+
+                    <div>
+                      <p className="text-sm font-semibold uppercase tracking-[0.2em] text-text-secondary">
+                        Available colors
+                      </p>
+                      <div className="mt-3 flex flex-wrap gap-3">
+                        {(product.colors ?? []).map((color) => (
+                          <div
+                            key={color}
+                            className="flex items-center gap-3 rounded-xl border border-line bg-background px-4 py-2.5 text-sm font-semibold text-dark"
+                          >
+                            {color}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                ) : null}
+                {product.type === "decor" ? (
+                  <div>
+                    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-text-secondary">
+                      Material
+                    </p>
+                    <p className="mt-2 text-lg font-semibold text-dark">{product.material}</p>
                   </div>
-                </div>
+                ) : null}
               </div>
             </div>
 
@@ -144,7 +165,7 @@ export function ProductDetails({ product }: { product: Product }) {
                   <div>
                     <h3 className="text-2xl text-dark">Delivery</h3>
                     <p className="mt-2 text-sm leading-7 text-text-secondary">
-                      {product.shippingLeadTime}. You will review your cart before entering address and
+                      {product.shippingLeadTime ?? "Dispatches within 48 hours"}. You will review your cart before entering address and
                       payment details.
                     </p>
                   </div>
@@ -155,9 +176,11 @@ export function ProductDetails({ product }: { product: Product }) {
                     <ShieldCheck className="h-5 w-5 text-dark" />
                   </span>
                   <div>
-                    <h3 className="text-2xl text-dark">Fit and fabric</h3>
+                    <h3 className="text-2xl text-dark">{product.type === "decor" ? "Material and finish" : "Fit and fabric"}</h3>
                     <p className="mt-2 text-sm leading-7 text-text-secondary">
-                      {product.fit} Made from {product.material.toLowerCase()}.
+                      {product.type === "decor"
+                        ? `Made from ${product.material?.toLowerCase() ?? "premium materials"} for modern spaces.`
+                        : `Built for movement. Made from ${product.material?.toLowerCase() ?? "premium materials"}.`}
                     </p>
                   </div>
                 </div>
@@ -167,9 +190,9 @@ export function ProductDetails({ product }: { product: Product }) {
                     <Store className="h-5 w-5 text-dark" />
                   </span>
                   <div>
-                    <h3 className="text-2xl text-dark">Sold by {product.seller.name}</h3>
+                    <h3 className="text-2xl text-dark">Sold by ALPACA Studio</h3>
                     <p className="mt-2 text-sm leading-7 text-text-secondary">
-                      {product.seller.location}. {product.seller.responseTime}.
+                      New Delhi, India. Usually responds within 24 hours.
                     </p>
                   </div>
                 </div>

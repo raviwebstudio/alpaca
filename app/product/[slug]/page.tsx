@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { ProductDetails, ProductFallback } from "@/components/ProductDetails";
+import { notFound } from "next/navigation";
+import { ProductDetails } from "@/components/ProductDetails";
 import { getProductBySlug, products } from "@/data/products";
 
 type ProductPageProps = {
@@ -28,11 +29,11 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 
   return {
     title: product.title,
-    description: product.summary,
+    description: product.summary ?? product.description,
     openGraph: {
       title: `${product.title} | ALPACA`,
-      description: product.summary,
-      images: [product.images[0].src],
+      description: product.summary ?? product.description,
+      images: [product.images[0]],
     },
   };
 }
@@ -42,7 +43,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const product = getProductBySlug(slug);
 
   if (!product) {
-    return <ProductFallback slug={slug} />;
+    notFound();
   }
 
   return <ProductDetails product={product} />;

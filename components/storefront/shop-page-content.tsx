@@ -55,6 +55,7 @@ export function ShopPageContent({ initialFilters }: ShopPageContentProps) {
     });
   };
 
+  const fashionProducts = products.filter((product) => product.type === "fashion");
   const filteredProducts = filterProducts(products, filters);
   const categoryScopedCount = (category: ProductCategory | "all") =>
     filterProducts(products, {
@@ -190,7 +191,7 @@ export function ShopPageContent({ initialFilters }: ShopPageContentProps) {
                 <div className="space-y-1">
                   <p className="text-sm text-text-secondary">
                     Showing <span className="font-semibold text-dark">{filteredProducts.length}</span> of{" "}
-                    <span className="font-semibold text-dark">{products.length}</span> products
+                    <span className="font-semibold text-dark">{fashionProducts.length}</span> products
                   </p>
                   <p className="text-sm text-text-secondary">
                     {filters.category === "all"

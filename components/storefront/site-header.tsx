@@ -9,7 +9,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { navigation } from "@/lib/storefront";
 import { useCart } from "@/components/storefront/cart-provider";
 import { useState } from "react";
-import logoBlack from "../../assets/logo-black.png";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -32,7 +31,7 @@ export function SiteHeader() {
           </div> */}
           <span>
             <Image
-              src={logoBlack}
+              src="/assets/logo-black.png"
               alt="ALPACA Logo"
               // className="h-10 w-10"
               width={80}

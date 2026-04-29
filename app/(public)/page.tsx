@@ -75,8 +75,8 @@ export default function HomePage() {
         <div className="grid gap-5 md:grid-cols-[1fr_220px] motion-safe:animate-fade-up">
           <div className="surface-card overflow-hidden rounded-[36px] shadow-premium sm:h-[520px] relative h-[500px] shadow-premium">
             <Image
-              src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1600&q=80"
-              alt="ALPACA hero editorial frame"
+              src="/assets/images/portrait-01.jpg"
+              alt="Hero Image"
               fill
               priority
               sizes="(min-width: 1024px) 42vw, 100vw"
@@ -105,7 +105,7 @@ export default function HomePage() {
             <div className="surface-card rounded-[28px] p-3">
               <div className="relative aspect-[3/4] overflow-hidden rounded-[22px]">
                 <Image
-                  src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1200&q=80"
+                  src="/assets/images/portrait-02.jpg"
                   alt="ALPACA secondary look"
                   fill
                   sizes="220px"
@@ -136,39 +136,7 @@ export default function HomePage() {
       </FadeIn>
       </Suspense>
 
-      {/* <section className="shell section-space pt-0 motion-safe:animate-fade-up">
-        <div className="surface-card rounded-[36px] p-6 sm:p-8 lg:p-10">
-          <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2">
-            <div className="rounded-[28px] bg-[#F8F5F2] p-8 sm:p-12">
-              <p className="text-sm tracking-[0.32em] text-gray-500">LATEST RELEASE</p>
-              <h2 className="mt-3 text-4xl font-semibold text-dark sm:text-5xl">New Drops</h2>
-              <p className="mt-4 max-w-lg text-base leading-8 text-text-secondary">
-                Fresh arrivals with tonal color, engineered layers, and limited-run statement
-                essentials.
-              </p>
-              <Link
-                href="/shop"
-                className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-dark transition hover:gap-3"
-              >
-                Explore collection
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-
-            <div className="overflow-hidden rounded-[28px]">
-              <div className="group relative aspect-[4/5] overflow-hidden rounded-[28px]">
-                <Image
-                  src={collections[2].image}
-                  alt="ALPACA new drops"
-                  fill
-                  sizes="(min-width: 768px) 50vw, 100vw"
-                  className="object-cover transition duration-700 group-hover:scale-[1.05]"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
+      
 
       <Suspense fallback={<div className="h-96 bg-[#FAF8F5]" />}>
       <FadeIn delay={0.08}>

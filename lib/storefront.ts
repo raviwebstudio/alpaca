@@ -57,7 +57,7 @@ export type LegalDocument = {
 export const navigation = [
   { href: "/", label: "Home" },
   { href: "/shop", label: "Shop" },
-  { href: "/blog", label: "Updates" },
+  { href: "/home-decor", label: "Home Decor" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
@@ -70,8 +70,7 @@ export const collections = [
     description:
       "Heavyweight cotton tees cut with room to move, layered neutrals, and clean structure.",
     href: "/shop?category=oversized",
-    image:
-      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=80",
+    image: "/assets/images/portrait-02.jpg",
   },
   {
     title: "Basics",
@@ -80,8 +79,8 @@ export const collections = [
     description:
       "Polished staples designed to anchor the wardrobe with softness, ease, and repeat wear.",
     href: "/shop?category=basics",
-    image:
-      "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80",
+    image: "/assets/images/plain-clothing02.jpg",
+
   },
   {
     title: "Outerwear",
@@ -90,8 +89,25 @@ export const collections = [
     description:
       "Soft hoodies, technical shells, and versatile outer layers designed for movement.",
     href: "/shop?category=outerwear",
-    image:
-      "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1200&q=80",
+    image: "/assets/images/plain-clothing01.jpg",
+  },
+  {
+    title: "Casual Men Tshirts",
+    slug: "casual-men-tshirts",
+    label: "Casual Tshirts",
+    description:
+      "Soft hoodies, technical shells, and versatile outer layers designed for movement.",
+    href: "/shop?category=casual-men-tshirts",
+    image: "/assets/images/casual-men-tshirt.webp",
+  },
+  {
+    title: "Printed Women Tshirts",
+    slug: "printed-women-tshirts",
+    label: "Party utility",
+    description:
+      "Soft hoodies, technical shells, and versatile outer layers designed for movement.",
+    href: "/shop?category=printed-women-tshirts",
+    image: "/assets/images/printed-woman-tshirt.webp",
   },
 ];
 
@@ -135,8 +151,7 @@ export const blogPosts: BlogPost[] = [
     publishedAt: "2026-03-07",
     readingTime: "5 min read",
     category: "Style System",
-    coverImage:
-      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1400&q=80",
+    coverImage: "/inventory/men/tshirts/plain-white-t-shirt01.jpg",
     sections: [
       {
         heading: "Start with proportion, not quantity",
@@ -164,8 +179,7 @@ export const blogPosts: BlogPost[] = [
     publishedAt: "2026-03-15",
     readingTime: "4 min read",
     category: "Fabric Notes",
-    coverImage:
-      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1400&q=80",
+    coverImage: "/inventory/men/tshirts/plain-white-t-shirt02.webp",
     sections: [
       {
         heading: "Weight defines presence",
@@ -193,8 +207,7 @@ export const blogPosts: BlogPost[] = [
     publishedAt: "2026-03-22",
     readingTime: "6 min read",
     category: "Movement",
-    coverImage:
-      "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1400&q=80",
+    coverImage: "/inventory/men/tshirts/mens-black-t-shirt01.webp",
     sections: [
       {
         heading: "Pack in layers, not outfits",
