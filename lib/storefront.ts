@@ -71,7 +71,7 @@ export const collections = [
     description:
       "Heavyweight cotton tees cut with room to move, layered neutrals, and clean structure.",
     href: "/shop?category=oversized",
-    image: "/assets/images/portrait-02.jpg",
+    image: "/assets/images/portrait-03.webp",
   },
   {
     title: "Basics",
