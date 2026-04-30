@@ -83,7 +83,7 @@ export const collections = [
 
   },
   {
-    title: "Outerwear",
+    title: "Outerwear Utilities",
     slug: "outerwear",
     label: "Layered utility",
     description:

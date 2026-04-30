@@ -10,10 +10,11 @@ type ProductCarouselProps = {
 };
 
 export function ProductCarousel({ products }: ProductCarouselProps) {
+  const productCount = products?.length ?? 0;
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrollState, setScrollState] = useState({
     canScrollLeft: false,
-    canScrollRight: products.length > 0,
+    canScrollRight: productCount > 0,
   });
 
   useEffect(() => {
@@ -40,7 +41,7 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
       element.removeEventListener("scroll", updateScrollState);
       window.removeEventListener("resize", updateScrollState);
     };
-  }, [products.length]);
+  }, [productCount]);
 
   const scrollByAmount = (direction: number) => {
     scrollRef.current?.scrollBy({
@@ -48,6 +49,8 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
       behavior: "smooth",
     });
   };
+
+  if (!products || products.length === 0) return null;
 
   return (
     <div className="relative w-full overflow-hidden">

@@ -16,7 +16,18 @@ export default function ProductCard({
 }) {
   const slug = product.slug?.trim();
   const href = slug ? `/product/${slug}` : "/shop";
-  const image = product.images[0];
+  const rawImages = product.images as string[] | string;
+  const images =
+    typeof rawImages === "string"
+      ? (() => {
+          try {
+            return JSON.parse(rawImages) as string[];
+          } catch {
+            return [];
+          }
+        })()
+      : rawImages;
+  const image = images?.[0];
   const label = getCategoryLabel(product.category);
 
   return (

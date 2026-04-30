@@ -7,7 +7,7 @@ import { BlogCard } from "@/components/storefront/blog-card";
 import { FadeIn } from "@/components/storefront/fade-in";
 import { ProductCarousel } from "@/components/storefront/product-carousel";
 import { SectionHeading } from "@/components/storefront/section-heading";
-import { getBestSellerProducts, getNewDropProducts } from "@/data/products";
+import { getBestSellerProducts, getFallbackProducts, getNewDropProducts } from "@/data/products";
 import { blogPosts, collections, metrics, reasons } from "@/lib/storefront";
 
 export const metadata: Metadata = {
@@ -18,6 +18,8 @@ export const metadata: Metadata = {
 
 const bestSellers = getBestSellerProducts(6);
 const newDrops = getNewDropProducts(6);
+const homepageBestSellers = bestSellers.length ? bestSellers : getFallbackProducts(6);
+const homepageNewDrops = newDrops.length ? newDrops : getFallbackProducts(6);
 
 const whyAlpaca = [
   { title: "Soft dispatch", copy: "Fast prepaid fulfillment with careful finishing.", icon: Truck },
@@ -129,15 +131,14 @@ export default function HomePage() {
             description="A horizontal edit with premium weight, softened structure, and clean utility across the week."
           />
           <div className="mt-10 relative w-full overflow-hidden">
-            <ProductCarousel products={bestSellers} />
+            <ProductCarousel products={homepageBestSellers} />
           </div>
         </div>
       </section>
       </FadeIn>
       </Suspense>
 
-      
-
+       
       <Suspense fallback={<div className="h-96 bg-[#FAF8F5]" />}>
       <FadeIn delay={0.08}>
       <section className="shell section-space pt-0 motion-safe:animate-fade-up">
@@ -180,29 +181,6 @@ export default function HomePage() {
       </Suspense>
 
       <Suspense fallback={<div className="h-96 bg-[#FAF8F5]" />}>
-      <FadeIn delay={0.1}>
-      <section className="shell section-space pt-0 motion-safe:animate-fade-up">
-        <SectionHeading
-          eyebrow="Why ALPACA"
-          title="Minimal does not mean empty. It means every detail matters."
-          description="The design language stays quiet so fabric, fit, and finishing can speak clearly."
-        />
-        <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {whyAlpaca.map((item) => (
-            <div key={item.title} className="surface-card rounded-[28px] p-6">
-              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-soft text-dark">
-                <item.icon className="h-5 w-5" />
-              </div>
-              <h3 className="mt-6 text-3xl text-dark">{item.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-text-secondary">{item.copy}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-      </FadeIn>
-      </Suspense>
-
-      <Suspense fallback={<div className="h-96 bg-[#FAF8F5]" />}>
       <FadeIn delay={0.12}>
       <section className="relative z-[1] w-full overflow-hidden py-16 bg-[#FAF8F5]">
         <div className="shell motion-safe:animate-fade-up">
@@ -227,10 +205,33 @@ export default function HomePage() {
             </div>
             <div className="grid gap-10 mt-5 lg:items-center">
               <div className="relative w-full overflow-hidden">
-                <ProductCarousel products={newDrops} />
+                <ProductCarousel products={homepageNewDrops} />
               </div>
             </div>
           </div>
+        </div>
+      </section>
+      </FadeIn>
+      </Suspense>
+
+      <Suspense fallback={<div className="h-96 bg-[#FAF8F5]" />}>
+      <FadeIn delay={0.1}>
+      <section className="shell section-space pt-0 motion-safe:animate-fade-up">
+        <SectionHeading
+          eyebrow="Why ALPACA"
+          title="Minimal does not mean empty. It means every detail matters."
+          description="The design language stays quiet so fabric, fit, and finishing can speak clearly."
+        />
+        <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          {whyAlpaca.map((item) => (
+            <div key={item.title} className="surface-card rounded-[28px] p-6">
+              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-soft text-dark">
+                <item.icon className="h-5 w-5" />
+              </div>
+              <h3 className="mt-6 text-3xl text-dark">{item.title}</h3>
+              <p className="mt-3 text-sm leading-7 text-text-secondary">{item.copy}</p>
+            </div>
+          ))}
         </div>
       </section>
       </FadeIn>

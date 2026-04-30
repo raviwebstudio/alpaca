@@ -114,8 +114,43 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    } catch {
+      // Ignore unavailable storage so cart interactions keep working in memory.
+    }
   }, [items]);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+
+      if (stored) {
+        const parsed = JSON.parse(stored) as CartItem[];
+
+        if (parsed.some((item) => item.quantity > 10)) {
+          localStorage.removeItem(STORAGE_KEY);
+          setItems([]);
+        }
+      }
+    } catch {
+      localStorage.removeItem(STORAGE_KEY);
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleStorage = () => {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        setItems(stored ? (JSON.parse(stored) as CartItem[]) : []);
+      } catch {
+        setItems([]);
+      }
+    };
+
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
 
   const addItem = (newItem: CartProductInput) => {
     setItems((prev) => {
