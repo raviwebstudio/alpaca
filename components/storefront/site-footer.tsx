@@ -139,7 +139,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-12 flex flex-col gap-4 border-t border-white/10 pt-6 text-sm sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-white/35">(c) 2026 ALPACA - MADE FOR THE MOVE. All Rights Reserved.</p>
+          <p className="text-white/35">(c) 2026 ALPACA - MADE FOR THE MOVE | All Rights Reserved.</p>
           <div className="flex items-center gap-2">
             <span className="text-white/35">Design and Development By</span>
             <span className="rounded border border-[#C8956C]/30 px-2 py-0.5 text-xs tracking-wide text-[#C8956C]">
