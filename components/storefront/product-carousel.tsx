@@ -58,11 +58,14 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
         ref={scrollRef}
         className="flex gap-6 overflow-x-auto scroll-smooth pb-4 no-scrollbar [scrollbar-width:none]"
       >
-        {products.map((product) => (
-          <div key={product.slug} className="flex-shrink-0 w-[280px] md:w-[300px]">
-            <ProductCard product={product} className="h-full" />
-          </div>
-        ))}
+        {products.map((product, index) => (
+  <div
+    key={`${product.id}-${product.slug}-${index}`} // 🔥 bulletproof
+    className="flex-shrink-0 w-[280px] md:w-[280px]"
+  >
+    <ProductCard product={product} className="h-full" />
+  </div>
+))}
       </div>
 
       <button

@@ -256,7 +256,7 @@ export const getRelatedProducts = (slug: string, category: ProductCategory, limi
     .filter((product) => product.slug !== slug && product.category === category)
     .slice(0, limit);
 
-export const getFeaturedProducts = (limit = 6, type?: ProductType) =>
+export const getFeaturedProducts = (limit = 15, type?: ProductType) =>
   products
     .filter((product) => product.featured && (!type || product.type === type))
     .slice(0, limit);

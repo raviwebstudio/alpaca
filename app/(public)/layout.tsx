@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { SiteHeader } from "@/components/storefront/site-header";
-import { SiteFooter } from "@/components/storefront/site-footer";
 
 export default function PublicLayout({ children }: { children: ReactNode }) {
   return (
@@ -10,7 +9,6 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
       <div className="relative">
         <SiteHeader />
         <main>{children}</main>
-        <SiteFooter />
       </div>
     </div>
   );
