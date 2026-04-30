@@ -52,9 +52,7 @@ export default function Footer() {
           <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
             {/* LEFT SIDE: Brand & Description */}
             <div className="lg:col-span-1">
-              <h3 className="font-playfair text-2xl font-medium tracking-wide text-white">
-                ALPACA
-              </h3>
+              <a href="/"><img src="/assets/logo-white.png" alt="ALPACA" className="w-42 h-20 mb-4" /></a>
               <p className="mt-4 text-sm leading-relaxed text-white/60">
                 Minimal, premium essentials for everyday movement. Curated
                 oversized tees, refined basics, and new drops.
@@ -64,9 +62,11 @@ export default function Footer() {
                 <br />
                 <a href="mailto:contact@alpacaa.in" className="text-sm text-white/60 transition-colors duration-200 hover:text-white">Support@alpacaa.in</a>
               </div>
-              <div className="social-icons">
-
-              </div>
+              {/* <div className="social-icons d-flex">
+                <a href="https://www.instagram.com/alpacaa.in/"><img src="https://thumbs.dreamstime.com/b/social-media-instagram-icon-transparent-background-172928815.jpg" alt="Instagram" className="w-8 h-8" /></a>
+                <a href="https://www.facebook.com/alpacaa.in/"><img src="https://www.logo.wine/a/logo/Facebook/Facebook-f_Logo-Blue-Logo.wine.svg" alt="Facebook" className="w-8 h-8" /></a>
+                <a href="https://whatsapp://send?phone=+918262948016"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/3840px-WhatsApp.svg.png" alt="Whatsapp" className="w-8 h-8" /></a>
+              </div> */}
             </div>
 
             {/* RIGHT SIDE: Link Columns */}
