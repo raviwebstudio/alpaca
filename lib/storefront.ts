@@ -152,7 +152,7 @@ export const blogPosts: BlogPost[] = [
     publishedAt: "2026-03-07",
     readingTime: "5 min read",
     category: "Style System",
-    coverImage: "/inventory/men/tshirts/plain-white-t-shirt01.jpg",
+    coverImage: "/assets/images/blog-image-02.webp",
     sections: [
       {
         heading: "Start with proportion, not quantity",
@@ -180,7 +180,7 @@ export const blogPosts: BlogPost[] = [
     publishedAt: "2026-03-15",
     readingTime: "4 min read",
     category: "Fabric Notes",
-    coverImage: "/inventory/men/tshirts/plain-white-t-shirt02.webp",
+    coverImage: "/assets/images/plain-clothing01.jpg",
     sections: [
       {
         heading: "Weight defines presence",
